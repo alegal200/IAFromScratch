@@ -12,13 +12,14 @@ This projecte have the goal to understand How  Artificial inteligence is working
  Code structures :
 
 
-| what ? 		          | location                       | who?   | status      |
-|--------------------|--------------------------------|--------|-------------|
-| GUI                | src/main/java/GUI              | ???    | not started |
-| DATA               | src/main/ressources            | ////   | finish      |
-| DATAREADER         | src/main/java/csvreader        | ???    | not started |
-| Algos              | src/main/java/peceptron/algos  | ???    | not started |
-| simple peceptrons  | src/main/java/peceptron/struct | ???    | not started |
+| what ? 		         | location                       | who | status          |
+|-------------------|--------------------------------|------|-----------------|
+| GUI               | src/main/java/GUI              | ???  | not started     |
+| DATA              | src/main/ressources            |      | finish          |
+| DATAREADER        | src/main/java/csvreader        | ???  | not started     |
+| Algos             | src/main/java/peceptron/algos  | ???  | not started     |
+| simple peceptrons | src/main/java/peceptron/struct | ???  | pending         |
+ | Exceptions        | src/main/java/Exceptions       | both | 1/1 implemented |
 
 
 
@@ -37,6 +38,9 @@ This projecte have the goal to understand How  Artificial inteligence is working
 
 ### SIMPLE peceptron
 	 simpel peceptron desc
+### Excptions
+	 OutOfTableException :when you tire to set an value outside of a tabel
+	 
 
 
 
@@ -54,12 +58,13 @@ Professeur : Jean-Marc Wagner
 Projet de laboratoire
 Etude et implémentation du Perceptron et de sa mise en réseau*
 ### Ce projet a pour but de vous familiariser avec les réseaux de neurones artificiels et leurapprentissage :
-• Perceptron simple
-• Perceptron utilisant la technique d’apprentissage de la descente du gradient
-• Perceptron utilisant la technique d’apprentissage ADALINE
-• Perceptron mono-couche (il s’agit d’un premier réseau de neurones travaillant en parallèle
+* Perceptron simple
+* Perceptron utilisant la technique d’apprentissage de la descente du gradient
+* Perceptron utilisant la technique d’apprentissage ADALINE
+* Perceptron mono-couche (il s’agit d’un premier réseau de neurones travaillant en parallèle
 mais n’ayant aucune influence les uns sur les autres).
-• Perceptron multi-couches (algorithme de rétro-propagation de l’erreur)
+* Perceptron multi-couches (algorithme de rétro-propagation de l’erreur)
+
 Ce projet consiste donc à implémenter ces différentes techniques. Il vous est loisible de choisir le 
 langage et le paradigme de programmation de votre choix. Il vous est néanmoins interdit d’utiliser 
 une librairie dédiée aux réseaux de neurones. Vous devez donc tout implémenter « from scratch ».
