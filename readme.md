@@ -20,7 +20,15 @@ The goal of this project is to understand how Artifical Inteligence is working b
 | simple peceptrons | src/main/java/peceptron/struct | ???  | pending         |
  | Exceptions        | src/main/java/Exceptions       | both | 1/1 implemented |
 
+### Marche a suivre
 
+- Chacun code perceptron simple
+- Mise en commun du perceptron simple (base commune)
+- Discute architecture de programmation
+- Dispatching des taches (Gradiant-Adalaline)
+- Discussion
+- Dispatching des taches (Mono-Multi)
+- Discussion
 
 
 ### GUI
@@ -40,11 +48,6 @@ The goal of this project is to understand how Artifical Inteligence is working b
 ### Excptions
 	 OutOfTableException :when you tire to set a value outside of a tabel
 
-	
-
-	test git 2:)
-
-	test git 3 :)
 
 
 
