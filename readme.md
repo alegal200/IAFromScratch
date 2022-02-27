@@ -4,12 +4,11 @@ authors :
 	@Alegal200
 	@Ghali9
 
-This projecte have the goal to understand How  Artificial inteligence is working. 
- peceptronFirst case is create a *peceptron*
+The goal of this project is to understand how Artifical Inteligence is working by building our own neural networks.
 
 
 
- Code structures :
+ Code structure :
 
 
 | what ? 		         | location                       | who | status          |
@@ -39,8 +38,8 @@ This projecte have the goal to understand How  Artificial inteligence is working
 ### SIMPLE peceptron
 	 simpel peceptron desc
 ### Excptions
-	 OutOfTableException :when you tire to set an value outside of a tabel
-	 
+	 OutOfTableException :when you tire to set a value outside of a tabel
+
 
 
 
