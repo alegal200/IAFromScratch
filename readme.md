@@ -42,7 +42,7 @@ The goal of this project is to understand how Artifical Inteligence is working b
 
 	
 
-	test git :)
+	test git 2:)
 
 
 
