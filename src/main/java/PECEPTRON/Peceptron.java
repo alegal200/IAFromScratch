@@ -1,4 +1,4 @@
-package PECEPTRON.STRUCT;
+package PECEPTRON;
 
 
 import Exceptions.OutOfTableException;
