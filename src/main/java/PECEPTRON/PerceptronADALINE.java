@@ -4,12 +4,29 @@ import java.util.Arrays;
 
 public class PerceptronADALINE {
 
-    private static final int MAX_ITERATION = 10000;
+    private double[] Weights;
+    private double Threshold;
+    private double Learning_Rate; // ]0, 1]
+    private double Error_Threshold;
+    private int MAX_ITERATION ;
 
-    private double[] Weights = {0, 0, 0};
-    private double Learning_Rate = 0.03; // ]0, 1]
-    private double Error_Threshold = 0.1251;
-    private double Threshold = 0.0;
+    public PerceptronADALINE() {
+        setWeights(new double[3]);
+        Arrays.fill(getWeights(),0);
+        setThreshold(0.0);
+        setLearning_Rate(0.03);
+        setError_Threshold(0.1251);
+        setMAX_ITERATION(10000);
+    }
+
+    public PerceptronADALINE(double[] w,double t,double lr,double e_r,int mi) {
+        setWeights(new double[w.length]);
+        setWeights(Arrays.copyOf(w, w.length));
+        setThreshold(t);
+        setLearning_Rate(lr);
+        setError_Threshold(e_r);
+        setMAX_ITERATION(mi);
+    }
 
 
     public void Perceptron(int[][] Input, int[] OutputExpected) {
@@ -29,7 +46,7 @@ public class PerceptronADALINE {
 
                 //Calcul du potentiel pour l'iteration k
                 for (int i = 0; i < Input[k].length; i++) {
-                    Potential = Potential + (Weights[i] * Input[k][i]);
+                    Potential = Potential + (getWeights()[i] * Input[k][i]);
                 }
 
                 //Calcul de la sortie du neurone
@@ -37,7 +54,7 @@ public class PerceptronADALINE {
                 System.out.println("  k" + k + " Sortie:" + Output[k]);
 
                 //Calcul des s du neurone en fonction du seuil
-                if (Output[k] >= Threshold) {
+                if (Output[k] >= getThreshold()) {
                     s = 1;
                 } else {
                     s = -1;
@@ -51,9 +68,9 @@ public class PerceptronADALINE {
                 //Si le neuronne commet une erreur, modification des poids + incrementation du nbr d'erreur pour une iterationComplete
                 if (Error != 0) {
                     for (int i = 0; i < Input[k].length; i++) {
-                        Weights[i] = Weights[i] + Learning_Rate * (Error) * Input[k][i];
+                        getWeights()[i] = getWeights()[i] + getLearning_Rate() * (Error) * Input[k][i];
                     }
-                    System.out.println("  k" + k + " NouveauPoid:" + Arrays.toString(Weights));
+                    System.out.println("  k" + k + " NouveauPoid:" + Arrays.toString(getWeights()));
                 }
 
             }
@@ -64,7 +81,7 @@ public class PerceptronADALINE {
             {
                 for(int i = 0; i < Input[k].length; i++)
                 {
-                    NewOutput_ErrQuad[k] = NewOutput_ErrQuad[k] + (Weights[i] * Input[k][i]);
+                    NewOutput_ErrQuad[k] = NewOutput_ErrQuad[k] + (getWeights()[i] * Input[k][i]);
                 }
             }
 
@@ -76,10 +93,49 @@ public class PerceptronADALINE {
             System.out.println("  Fin iteration"+CurrentCompleteIteration+" erreurQuadMoyenne:"+ AVG_ERROR );
 
             CurrentCompleteIteration++;
-        } while (AVG_ERROR > Error_Threshold && CurrentCompleteIteration < MAX_ITERATION);
+        } while (AVG_ERROR > getError_Threshold() && CurrentCompleteIteration < getMAX_ITERATION());
 
 
     }
 
 
+    public double[] getWeights() {
+        return Weights;
+    }
+
+    public void setWeights(double[] weights) {
+        Weights = weights;
+    }
+
+    public double getLearning_Rate() {
+        return Learning_Rate;
+    }
+
+    public void setLearning_Rate(double learning_Rate) {
+        Learning_Rate = learning_Rate;
+    }
+
+    public double getError_Threshold() {
+        return Error_Threshold;
+    }
+
+    public void setError_Threshold(double error_Threshold) {
+        Error_Threshold = error_Threshold;
+    }
+
+    public double getThreshold() {
+        return Threshold;
+    }
+
+    public void setThreshold(double threshold) {
+        Threshold = threshold;
+    }
+
+    public int getMAX_ITERATION() {
+        return MAX_ITERATION;
+    }
+
+    public void setMAX_ITERATION(int MAX_ITERATION) {
+        this.MAX_ITERATION = MAX_ITERATION;
+    }
 }
