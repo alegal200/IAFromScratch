@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class PerceptronADALINE {
 
-    private static final int MAX_ITERATION = 10;
+    private static final int MAX_ITERATION = 10000;
 
     private double[] Weights = {0, 0, 0};
     private double Learning_Rate = 0.03; // ]0, 1]
@@ -54,15 +54,23 @@ public class PerceptronADALINE {
                         Weights[i] = Weights[i] + Learning_Rate * (Error) * Input[k][i];
                     }
                     System.out.println("  k" + k + " NouveauPoid:" + Arrays.toString(Weights));
-
-
                 }
 
             }
 
+            //Calcul des nouveaux output pour l'erreur quadratique moyenne avec les dernier poids synaptiques
+            double[] NewOutput_ErrQuad = new double[Input.length];
+            for(int k = 0; k < Input.length; k++)
+            {
+                for(int i = 0; i < Input[k].length; i++)
+                {
+                    NewOutput_ErrQuad[k] = NewOutput_ErrQuad[k] + (Weights[i] * Input[k][i]);
+                }
+            }
+
             //Calcul de l'erreur quadratique moyenne
             for (int i = 0; i < OutputExpected.length; i++) {
-                AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i]-Output[i],2);
+                AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i]-NewOutput_ErrQuad[i],2);
             }
             AVG_ERROR = AVG_ERROR/(2*(OutputExpected.length));
             System.out.println("  Fin iteration"+CurrentCompleteIteration+" erreurQuadMoyenne:"+ AVG_ERROR );
