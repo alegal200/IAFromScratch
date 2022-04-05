@@ -14,187 +14,194 @@ public class PerceptronDG {
 
     public PerceptronDG() {
         setWeights(new double[3]);
-        Arrays.fill(getWeights(),0);
+        Arrays.fill(getWeights(), 0);
         setThreshold(0.0);
         setLearning_Rate(0.2);
         setError_Threshold(0.125001);
         setMAX_ITERATION(50);
         setD_Weights(new double[3]);
-        Arrays.fill(getD_Weights(),0);
+        Arrays.fill(getD_Weights(), 0);
 
     }
 
-    public PerceptronDG(double lr,int mi) {
+    public PerceptronDG(double learning_Rate, int MAX_ITERATION) {
         setWeights(new double[3]);
-        Arrays.fill(getWeights(),0);
+        Arrays.fill(getWeights(), 0);
         setThreshold(0.0);
-        setLearning_Rate(lr);
+        setLearning_Rate(learning_Rate);
         setError_Threshold(0.125001);
-        setMAX_ITERATION(mi);
+        setMAX_ITERATION(MAX_ITERATION);
         setD_Weights(new double[3]);
-        Arrays.fill(getD_Weights(),0);
+        Arrays.fill(getD_Weights(), 0);
     }
 
-    public PerceptronDG(double[] w,double t,double lr,double e_r,int mi) {
-        setWeights(new double[w.length]);
-        setWeights(Arrays.copyOf(w, w.length));
+    public PerceptronDG(double[] weights,double learning_Rate, int MAX_ITERATION,double error_Threshold) {
+        setWeights(new double[weights.length]);
+        setWeights(Arrays.copyOf(weights, weights.length));
+        setThreshold(0.0);
+        setLearning_Rate(learning_Rate);
+        setError_Threshold(error_Threshold);
+        setMAX_ITERATION(MAX_ITERATION);
+        setD_Weights(new double[weights.length]);
+        setD_Weights(Arrays.copyOf(weights, weights.length));
+    }
+
+    public PerceptronDG(double[] weights, double t, double learning_Rate, double error_Threshold, int MAX_ITERATION) {
+        setWeights(new double[weights.length]);
+        setWeights(Arrays.copyOf(weights, weights.length));
         setThreshold(t);
-        setLearning_Rate(lr);
-        setError_Threshold(e_r);
-        setMAX_ITERATION(mi);
-        setD_Weights(new double[w.length]);
-        setD_Weights(Arrays.copyOf(w, w.length));
+        setLearning_Rate(learning_Rate);
+        setError_Threshold(error_Threshold);
+        setMAX_ITERATION(MAX_ITERATION);
+        setD_Weights(new double[weights.length]);
+        setD_Weights(Arrays.copyOf(weights, weights.length));
     }
 
 
-    public void Perceptron(double[][] Input, double[] OutputExpected,boolean isClassification) {
+    public void Perceptron(double[][] Input, double[] OutputExpected) {
 
         int CurrentCompleteIteration = 1;
         double AVG_ERROR = 0;
 
+        do {
+            System.out.println("CurrentCompleteIteration : " + CurrentCompleteIteration); //Affiche l'iterationComplete actuel
 
-        if(isClassification==false) {
+            AVG_ERROR = 0; //Reinitialisation de l'erreur quadratique moyenne pour l'iterationComplete
+            Arrays.fill(getD_Weights(), 0); //Réinitialise d_Weights pour l'iterationComplete
+            double[] Output = new double[Input.length]; //Plus haute porté car necessaire au calcul de l'erreur moyenne
 
-            do {
-                System.out.println("CurrentCompleteIteration : " + CurrentCompleteIteration); //Affiche l'iterationComplete actuel
+            for (int k = 0; k < Input.length; k++) {
+                double Potential = 0;
+                int s;
 
-                AVG_ERROR = 0; //Reinitialisation de l'erreur quadratique moyenne pour l'iterationComplete
-                Arrays.fill(getD_Weights(), 0); //Réinitialise d_Weights pour l'iterationComplete
-                double[] Output = new double[Input.length]; //Plus haute porté car necessaire au calcul de l'erreur moyenne
+                //Calcul du potentiel pour l'iteration k
+                for (int i = 0; i < Input[k].length; i++) {
+                    Potential = Potential + (getWeights()[i] * Input[k][i]);
+                }
 
-                for (int k = 0; k < Input.length; k++) {
-                    double Potential = 0;
-                    int s;
 
-                    //Calcul du potentiel pour l'iteration k
+                //Calcul de la sortie du neurone
+                Output[k] = Potential;
+                System.out.println("  k" + k + " Sortie:" + Output[k]);
+
+                //Calcul des s du neurone en fonction du seuil
+                if (Output[k] >= getThreshold()) {
+                    s = 1;
+                } else {
+                    s = -1;
+                }
+                System.out.println("  k" + k + " Valeur s:" + s);
+
+                //Calcul de l'erreur commise par le neuronne
+                double Error = OutputExpected[k] - Output[k];
+                System.out.println("  k" + k + " ErreurCommise:" + Error);
+
+                //Si le neuronne commet une erreur, modification des d_poids
+                if (Error != 0) {
                     for (int i = 0; i < Input[k].length; i++) {
-                        Potential = Potential + (getWeights()[i] * Input[k][i]);
+                        getD_Weights()[i] = getD_Weights()[i] + getLearning_Rate() * (Error) * Input[k][i];
                     }
-
-
-                    //Calcul de la sortie du neurone
-                    Output[k] = Potential;
-                    System.out.println("  k" + k + " Sortie:" + Output[k]);
-
-                    //Calcul des s du neurone en fonction du seuil
-                    if (Output[k] >= getThreshold()) {
-                        s = 1;
-                    } else {
-                        s = -1;
-                    }
-                    System.out.println("  k" + k + " Valeur s:" + s);
-
-                    //Calcul de l'erreur commise par le neuronne
-                    double Error = OutputExpected[k] - Output[k];
-                    System.out.println("  k" + k + " ErreurCommise:" + Error);
-
-                    //Si le neuronne commet une erreur, modification des d_poids
-                    if (Error != 0) {
-                        for (int i = 0; i < Input[k].length; i++) {
-                            getD_Weights()[i] = getD_Weights()[i] + getLearning_Rate() * (Error) * Input[k][i];
-                        }
-                        System.out.println("  k" + k + " Nouveau D_Weight:" + Arrays.toString(getD_Weights()));
-                    }
-
+                    System.out.println("  k" + k + " Nouveau D_Weight:" + Arrays.toString(getD_Weights()));
                 }
 
-                //Modification des poids synaptiques a chaque iterationComplete
-                for (int i = 0; i < getWeights().length; i++) {
-                    getWeights()[i] = getWeights()[i] + getD_Weights()[i];
+            }
+
+            //Modification des poids synaptiques a chaque iterationComplete
+            for (int i = 0; i < getWeights().length; i++) {
+                getWeights()[i] = getWeights()[i] + getD_Weights()[i];
+            }
+            System.out.println("  Fin iteration" + CurrentCompleteIteration + " NouveauPoid Pour tour suivant:" + Arrays.toString(getWeights()));
+
+            //Calcul de l'erreur quadratique moyenne
+            for (int i = 0; i < OutputExpected.length; i++) {
+                AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i] - Output[i], 2);
+            }
+            AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
+            System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
+
+            CurrentCompleteIteration++;
+
+        } while (AVG_ERROR > getError_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
+
+
+    }
+
+    public void Classification(double[][] Input, double[] OutputExpected) {
+
+        int CurrentCompleteIteration = 1;
+        double AVG_ERROR = 0;
+        int NBR_ERRORS = 0;
+
+        do {
+            System.out.println("CurrentCompleteIteration : " + CurrentCompleteIteration); //Affiche l'iterationComplete actuel
+
+            AVG_ERROR = 0; //Reinitialisation de l'erreur quadratique moyenne pour l'iterationComplete
+            NBR_ERRORS = 0; //Réinitialiser pour chaque itérationComplete (1 itérationComplete = k itération)
+            Arrays.fill(getD_Weights(), 0); //Réinitialise d_Weights pour l'iterationComplete
+            double[] Output = new double[Input.length]; //Plus haute porté car necessaire au calcul de l'erreur moyenne
+
+            for (int k = 0; k < Input.length; k++) {
+                double Potential = 0;
+                int s;
+
+                //Calcul du potentiel pour l'iteration k
+                for (int i = 0; i < Input[k].length; i++) {
+                    Potential = Potential + (getWeights()[i] * Input[k][i]);
                 }
-                System.out.println("  Fin iteration" + CurrentCompleteIteration + " NouveauPoid Pour tour suivant:" + Arrays.toString(getWeights()));
 
-                //Calcul de l'erreur quadratique moyenne
-                for (int i = 0; i < OutputExpected.length; i++) {
-                    AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i] - Output[i], 2);
+
+                //Calcul de la sortie du neurone
+                Output[k] = Potential;
+                System.out.println("  k" + k + " Sortie:" + Output[k]);
+
+                //Calcul des s du neurone en fonction du seuil
+                if (Output[k] >= getThreshold()) {
+                    s = 1;
+                } else {
+                    s = -1;
                 }
-                AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
-                System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
+                //System.out.println("  k" + k + " Valeur s:" + s);
 
-                CurrentCompleteIteration++;
+                //Calcul de l'erreur commise par le neuronne
+                double Error = OutputExpected[k] - Output[k];
+                System.out.println("  k" + k + " ErreurCommise:" + Error);
 
-            } while (AVG_ERROR > getError_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
+                if (OutputExpected[k] > 0 && Output[k] > 0) {
 
-        }else
-        {
-            int NBR_ERRORS = 0;
+                } else if (OutputExpected[k] < 0 && Output[k] < 0) {
 
-            do {
-                System.out.println("CurrentCompleteIteration : " + CurrentCompleteIteration); //Affiche l'iterationComplete actuel
+                } else if (OutputExpected[k] == Output[k]) {
 
-                AVG_ERROR = 0; //Reinitialisation de l'erreur quadratique moyenne pour l'iterationComplete
-                NBR_ERRORS = 0; //Réinitialiser pour chaque itérationComplete (1 itérationComplete = k itération)
-                Arrays.fill(getD_Weights(), 0); //Réinitialise d_Weights pour l'iterationComplete
-                double[] Output = new double[Input.length]; //Plus haute porté car necessaire au calcul de l'erreur moyenne
+                } else {
+                    NBR_ERRORS++;
+                }
 
-                for (int k = 0; k < Input.length; k++) {
-                    double Potential = 0;
-                    int s;
-
-                    //Calcul du potentiel pour l'iteration k
+                //Si le neuronne commet une erreur, modification des d_poids
+                if (Error > 0.00001 || Error < -0.00001) {
                     for (int i = 0; i < Input[k].length; i++) {
-                        Potential = Potential + (getWeights()[i] * Input[k][i]);
+                        getD_Weights()[i] = getD_Weights()[i] + getLearning_Rate() * (Error) * Input[k][i];
                     }
-
-
-                    //Calcul de la sortie du neurone
-                    Output[k] = Potential;
-                    System.out.println("  k" + k + " Sortie:" + Output[k]);
-
-                    //Calcul des s du neurone en fonction du seuil
-                    if (Output[k] >= getThreshold()) {
-                        s = 1;
-                    } else {
-                        s = -1;
-                    }
-                    //System.out.println("  k" + k + " Valeur s:" + s);
-
-                    //Calcul de l'erreur commise par le neuronne
-                    double Error = OutputExpected[k] - Output[k];
-                    System.out.println("  k" + k + " ErreurCommise:" + Error);
-
-                    if(OutputExpected[k]>0 && Output[k]>0)
-                    {
-
-                    }else if(OutputExpected[k]<0 && Output[k]<0)
-                    {
-
-                    }else if(OutputExpected[k]==Output[k])
-                    {
-
-                    }else
-                    {
-                        NBR_ERRORS++;
-                    }
-
-                    //Si le neuronne commet une erreur, modification des d_poids
-                    if (Error > 0.00001 || Error < -0.00001) {
-                        for (int i = 0; i < Input[k].length; i++) {
-                            getD_Weights()[i] = getD_Weights()[i] + getLearning_Rate() * (Error) * Input[k][i];
-                        }
-                        System.out.println("  k" + k + " Nouveau D_Weight:" + Arrays.toString(getD_Weights()));
-                    }
-
+                    System.out.println("  k" + k + " Nouveau D_Weight:" + Arrays.toString(getD_Weights()));
                 }
 
-                //Modification des poids synaptiques a chaque iterationComplete
-                for (int i = 0; i < getWeights().length; i++) {
-                    getWeights()[i] = getWeights()[i] + getD_Weights()[i];
-                }
-                System.out.println("  Fin iteration" + CurrentCompleteIteration + " NouveauPoid Pour tour suivant:" + Arrays.toString(getWeights()));
+            }
 
-                //Calcul de l'erreur quadratique moyenne
-                for (int i = 0; i < OutputExpected.length; i++) {
-                    AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i] - Output[i], 2);
-                }
-                AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
-                System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
-                System.out.println("  Nombre d'erreur pour l'iterationComplete "+CurrentCompleteIteration+" :"+NBR_ERRORS);
+            //Modification des poids synaptiques a chaque iterationComplete
+            for (int i = 0; i < getWeights().length; i++) {
+                getWeights()[i] = getWeights()[i] + getD_Weights()[i];
+            }
+            System.out.println("  Fin iteration" + CurrentCompleteIteration + " NouveauPoid Pour tour suivant:" + Arrays.toString(getWeights()));
 
-                CurrentCompleteIteration++;
-            } while (NBR_ERRORS > 0 && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
+            //Calcul de l'erreur quadratique moyenne
+            for (int i = 0; i < OutputExpected.length; i++) {
+                AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i] - Output[i], 2);
+            }
+            AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
+            System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
+            System.out.println("  Nombre d'erreur pour l'iterationComplete " + CurrentCompleteIteration + " :" + NBR_ERRORS);
 
-        }
+            CurrentCompleteIteration++;
+        } while (NBR_ERRORS > 0 && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
 
     }
 
