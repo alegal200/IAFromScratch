@@ -153,13 +153,26 @@ public class PerceptronDG {
                     double Error = OutputExpected[k] - Output[k];
                     System.out.println("  k" + k + " ErreurCommise:" + Error);
 
+                    if(OutputExpected[k]>0 && Output[k]>0)
+                    {
+
+                    }else if(OutputExpected[k]<0 && Output[k]<0)
+                    {
+
+                    }else if(OutputExpected[k]==Output[k])
+                    {
+
+                    }else
+                    {
+                        NBR_ERRORS++;
+                    }
+
                     //Si le neuronne commet une erreur, modification des d_poids
-                    if (Error > 0.3 || Error < -0.3) {
+                    if (Error > 0.00001 || Error < -0.00001) {
                         for (int i = 0; i < Input[k].length; i++) {
                             getD_Weights()[i] = getD_Weights()[i] + getLearning_Rate() * (Error) * Input[k][i];
                         }
                         System.out.println("  k" + k + " Nouveau D_Weight:" + Arrays.toString(getD_Weights()));
-                        NBR_ERRORS++;
                     }
 
                 }

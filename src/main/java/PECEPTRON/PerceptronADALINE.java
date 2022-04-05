@@ -132,8 +132,9 @@ public class PerceptronADALINE {
 
                     //Calcul de la sortie du neurone
                     Output[k] = Potential;
-                    Output[k] = Math.round(Output[k]*1000.0)/1000.0;
+                    //Output[k] = Math.round(Output[k]*1000.0)/1000.0;
                     System.out.println("  k" + k + " Sortie:" + Output[k]);
+                    System.out.println("  k" + k + " SortieAttendue:" +OutputExpected[k]);
 
                     //Calcul des s du neurone en fonction du seuil
                     if (Output[k] >= getThreshold()) {
@@ -145,17 +146,32 @@ public class PerceptronADALINE {
 
                     //Calcul de l'erreur commise par le neuronne
                     double Error = OutputExpected[k] - Output[k];
-                    Error = Math.round(Error*1000.0)/1000.0;
+                    //Error = Math.round(Error*1000.0)/1000.0;
                     System.out.println("  k" + k + " ErreurCommise:" + Error);
 
+
+                    if(OutputExpected[k]>0 && Output[k]>0)
+                    {
+
+                    }else if(OutputExpected[k]<0 && Output[k]<0)
+                    {
+
+                    }else if(OutputExpected[k]==Output[k])
+                    {
+
+                    }else
+                    {
+                        NBR_ERRORS++;
+                    }
+
+
                     //Si le neuronne commet une erreur, modification des poids + incrementation du nbr d'erreur pour une iterationComplete
-                    if (Error > 0.1 || Error < -0.1) {
+                    if (Error > 0.00001 || Error < -0.00001) {
                         for (int i = 0; i < Input[k].length; i++) {
                             getWeights()[i] = getWeights()[i] + getLearning_Rate() * (Error) * Input[k][i];
-                            getWeights()[i] = Math.round(getWeights()[i]*1000000.0)/1000000.0;
+                            //getWeights()[i] = Math.round(getWeights()[i]*1000000.0)/1000000.0;
                         }
                         System.out.println("  k" + k + " NouveauPoid:" + Arrays.toString(getWeights()));
-                        NBR_ERRORS++;
                     }
 
                 }

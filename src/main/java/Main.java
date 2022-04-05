@@ -28,6 +28,12 @@ public class Main {
                 case 5:
                     Essai5();
                     break;
+                case 6:
+                    Essai6();
+                    break;
+                case 7:
+                    Essai7();
+                    break;
                 default:
                     System.out.println("Choix incorrect");
                     break;
@@ -44,6 +50,8 @@ public class Main {
         System.out.println("3. Perceptron ADALINE");
         System.out.println("4. Perceptron ADALINE classif. linea. sep.");
         System.out.println("5. Perceptron Descente du Gradiant classif. linea. sep.");
+        System.out.println("6. Perceptron ADALINE classif. non linea. sep.");
+        System.out.println("7. Perceptron Descente du Gradiant classif. non linea. sep.");
         System.out.println("***********************");
         System.out.print("choix :");
         Scanner sc = new Scanner(System.in);
@@ -78,16 +86,27 @@ public class Main {
 
     private static void Essai4() throws IOException {
 
-        PerceptronADALINE p = new PerceptronADALINE(  0.012,93);
+        PerceptronADALINE p = new PerceptronADALINE(0.012, 100);
         p.Perceptron(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"), true);
     }
 
     private static void Essai5() throws IOException {
 
-        PerceptronDG p = new PerceptronDG(  0.0011,1000);
+        PerceptronDG p = new PerceptronDG(0.0011, 1000);
         p.Perceptron(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"), true);
     }
 
+    private static void Essai6() throws IOException {
+
+        PerceptronADALINE p = new PerceptronADALINE(0.0011, 1000);
+        p.Perceptron(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"), true);
+    }
+
+    private static void Essai7() throws IOException {
+
+        PerceptronDG p = new PerceptronDG(0.0015, 1000);
+        p.Perceptron(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"), true);
+    }
 
 }
 
