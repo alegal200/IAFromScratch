@@ -1,58 +1,25 @@
 # Introduction aux réseaux de neurones
 
-authors :
-	@Alegal200
-	@Ghali9
+##Remarques :
+ Que l'on réalise de la
+classification ou de la régression, la méthode de descente du gradient et ADALINE fournissent, au terme de l'apprentissage, des poids synaptiques tout
+à fait similaires.
 
-The goal of this project is to understand how Artifical Inteligence is working by building our own neural networks.
+La méthode de descente du gradient nécessite une connaissance globale de l'erreur. 
+En effet, au cours d’une itération
+, aucun justement des poids synaptiques ne sera réalisé tant que tous les exemples n'auront pas été traités, et cela quel que soit l'ordre de traitement des exemples du jeu d'apprentissage. 
+Le processus d'apprentissage est donc « figé » dans le sens où la trajectoire vers la solution est unique. Ceci peut paraître comme un défaut de la méthode.
 
+Contrairement à la méthode de descente du gradient, ADALINE modifie les poids synaptiques à chaque exemple traité (connaissance locale de l'erreur). 
+Elle ne constitue don qu'une approximation de la méthode de descente du gradient mais elle laisse l'opportunité de « contrôler » le processus d'apprentissage en choisissant l'ordre des exemples que l'on présente au Perceptron
 
+Dans de nombreux cas de classification, il a été remarqué que ADALINE présente un apprentissage plus rapide, c'est-à-dire présentant moins d'itérations.
 
- Code structure :
+La méthode de descente du gradient nécessite de mettre à jour les corrections des poids synaptiques ∆wi à chaque exemple traité. Si le nombre d'exemples du jeu d'apprentissage est très élevé, cela peut conduire à une a cumulation d'erreurs d'arrondis (voir même de capacité machine par dépassement) avant de pouvoir appliquer les corrections aux poids synaptiques.
 
+Toutes ces considérations ont fait que ADALINE est devenue la méthode de prédilection pour l'apprentissage du Perceptron et a de plus en plus supplanté la méthode de des ente du gradient. Elle deviendra même incontournable pour les réseaux de neurones multi-couches.
 
-| what ? 		         | location                       | who | status          |
-|-------------------|--------------------------------|------|-----------------|
-| GUI               | src/main/java/GUI              | ???  | not started     |
-| DATA              | src/main/ressources            |      | finish          |
-| DATAREADER        | src/main/java/csvreader        | ???  | not started     |
-| Algos             | src/main/java/peceptron/algos  | ???  | not started     |
-| simple peceptrons | src/main/java/peceptron/struct | ???  | pending         |
- | Exceptions        | src/main/java/Exceptions       | both | 1/1 implemented |
-
-### Marche a suivre
-
-- Chacun code perceptron simple
-- Mise en commun du perceptron simple (base commune)
-- Discute architecture de programmation
-- Dispatching des taches (Gradiant-Adalaline)
-- Discussion
-- Dispatching des taches (Mono-Multi)
-- Discussion
-
-
-### GUI
- 	GUI desc
-
-### DATA 
-	DATA desc
-
-### DATAReader
-	DATAReader desc
-
-### ALGOs
-	Algos desc
-
-### SIMPLE peceptron
-	 simpel peceptron desc
-### Excptions
-	 OutOfTableException :when you tire to set a value outside of a tabel
-
-
-
-
-
-# the deposit
+# The deposit
 
 *Master en architecture des systèmes informatiques (MI11)
 Master en sciences industrielles – orientation informatique (M18)
