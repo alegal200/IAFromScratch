@@ -56,6 +56,9 @@ public class Main {
                 case 14:
                     Essai14();
                     break;
+                case 15:
+                    Essai15();
+                    break;
                 default:
                     System.out.println("Choix incorrect");
                     break;
@@ -84,7 +87,8 @@ public class Main {
         System.out.println("11. Perceptron Monocouche 3 classes Adal-SeuilErrQuad");
         System.out.println("12. Perceptron Monocouche 3 classes DG-SeuilNombreErreur");
         System.out.println("13. Perceptron Monocouche 3 classes DG-SeuilErrQuad");
-        System.out.println("14. Perceptron Monocouche 4 classes");
+        System.out.println("14. Perceptron Monocouche 4 classes Adal-SeuilNombreErreur");
+        System.out.println("15. Perceptron Monocouche 4 classes Adal-SeuilErrQuad");
         System.out.print("choix :");
         Scanner sc = new Scanner(System.in);
         choix = sc.nextInt();
@@ -183,7 +187,14 @@ public class Main {
     }
     private static void Essai14() throws IOException {
 
-        PerceptronMonocouche p = new PerceptronMonocouche();
+        PerceptronMonocouche p = new PerceptronMonocouche(4,"adaline",0.001, 1000,0);
+        p.Perceptron(CSVReader.getInput("table_3_5.csv",4),CSVReader.getOutput("table_3_5.csv",4));
+
+    }
+
+    private static void Essai15() throws IOException {
+
+        PerceptronMonocouche p = new PerceptronMonocouche(4,"adaline",0.001, 1000,0.05);
         p.Perceptron(CSVReader.getInput("table_3_5.csv",4),CSVReader.getOutput("table_3_5.csv",4));
 
     }
