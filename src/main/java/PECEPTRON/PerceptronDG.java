@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class PerceptronDG {
 
-    private double[] Weights;
+    private double[] Weights; //Suivant une fonction Gaussienne de preference
     private double Threshold;
     private double Learning_Rate; // ]0, 1]
     private double Error_Threshold;

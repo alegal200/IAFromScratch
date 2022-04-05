@@ -5,7 +5,7 @@ package PECEPTRON;
 
 public class PerceptronSimple {
 
-    private double[] Weights ;
+    private double[] Weights ; //Suivant une fonction Gaussienne de preference
     private double Threshold ;
     private double Learning_Rate ; // ]0, 1]
 
