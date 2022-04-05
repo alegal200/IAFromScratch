@@ -4,8 +4,16 @@
  */
 package GUI;
 
+import CSVReader.CSVReader;
 import JfreeChartPack.PieChart;
-
+import PECEPTRON.PerceptronADALINE;
+import PECEPTRON.PerceptronDG;
+import PECEPTRON.PerceptronMonocouche;
+import PECEPTRON.PerceptronSimple;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +26,26 @@ public class GUI_RNA extends javax.swing.JFrame {
      */
     public GUI_RNA() {
         initComponents();
+        System.out.println("**********Menu*********");
+        System.out.println("1. Perceptron Mise au point (table ET)");
+        System.out.println("2. Perceptron Descente du Gradiant (table ET)");
+        System.out.println("3. Perceptron ADALINE(table ET)");
+        System.out.println("   **********Linea Separable**********");
+        System.out.println("4. Perceptron ADALINE classif. linea. sep.");
+        System.out.println("5. Perceptron Descente du Gradiant classif. linea. sep.");
+        System.out.println("   **********Non Linea Separable**********");
+        System.out.println("6. Perceptron ADALINE classif. non linea. sep.");
+        System.out.println("7. Perceptron Descente du Gradiant classif. non linea. sep.");
+        System.out.println("   **********REGRESSION**********");
+        System.out.println("8. Perceptron ADALINE Regression lineaire");
+        System.out.println("9. Perceptron Descente du Gradiant Regression lineaire");
+        System.out.println("**************Monocouche*********");
+        System.out.println("10. Perceptron Monocouche 3 classes Adal-SeuilNombreErreur");
+        System.out.println("11. Perceptron Monocouche 3 classes Adal-SeuilErrQuad");
+        System.out.println("12. Perceptron Monocouche 3 classes DG-SeuilNombreErreur");
+        System.out.println("13. Perceptron Monocouche 3 classes DG-SeuilErrQuad");
+        System.out.println("14. Perceptron Monocouche 4 classes Adal-SeuilNombreErreur");
+        System.out.println("15. Perceptron Monocouche 4 classes Adal-SeuilErrQuad");
     }
 
     /**
@@ -30,13 +58,20 @@ public class GUI_RNA extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        choix = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Go");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        choix.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choixActionPerformed(evt);
             }
         });
 
@@ -45,26 +80,94 @@ public class GUI_RNA extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(206, 206, 206)
-                .addComponent(jButton1)
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addGap(222, 222, 222)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(choix, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(143, 143, 143)
+                .addGap(151, 151, 151)
                 .addComponent(jButton1)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(choix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
+        /*PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
             demo.pack();
-            demo.setVisible(true);
+            demo.setVisible(true);*/
+        try {
+            switch (Integer.parseInt(choix.getText())) {
+                case 1:
+                    Essai1();
+                    break;
+                case 2:
+                    Essai2();
+                    break;
+                case 3:
+                    Essai3();
+                    break;
+                case 4:
+                    Essai4();
+                    break;
+                case 5:
+                    Essai5();
+                    break;
+                case 6:
+                    Essai6();
+                    break;
+                case 7:
+                    Essai7();
+                    break;
+                case 8:
+                    Essai8();
+                    break;
+                case 9:
+                    Essai9();
+                    break;
+                case 10:
+                    Essai10();
+                    break;
+                case 11:
+                    Essai11();
+                    break;
+                case 12:
+                    Essai12();
+                    break;
+                case 13:
+                    Essai13();
+                    break;
+                case 14:
+                    Essai14();
+                    break;
+                case 15:
+                    Essai15();
+                    break;
+                case 20:
+
+                    break;
+                default:
+                    System.out.println("Choix incorrect");
+                    break;
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RNA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void choixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choixActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_choixActionPerformed
 
     /**
      * @param args the command line arguments
@@ -101,7 +204,118 @@ public class GUI_RNA extends javax.swing.JFrame {
         });
     }
 
+    private void Essai1() {
+
+        System.out.println("1. Perceptron Mise au point (table ET)");
+        int[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
+        int[] Output = {0, 0, 0, 1};
+
+        PerceptronSimple p = new PerceptronSimple();
+        p.Perceptron(Input, Output);
+    }
+
+    private void Essai2() {
+        System.out.println("2. Perceptron Descente du Gradiant (table ET)");
+        double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
+        double[] Output = {-1, -1, -1, 1};
+
+        PerceptronDG p = new PerceptronDG();
+        p.Perceptron(Input, Output);
+    }
+
+    private void Essai3() {
+        System.out.println("3. Perceptron ADALINE(table ET)");
+        double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
+        double[] Output = {-1, -1, -1, 1};
+
+        PerceptronADALINE p = new PerceptronADALINE();
+        p.Perceptron(Input, Output);
+    }
+
+    private void Essai4() throws IOException {
+        System.out.println("4. Perceptron ADALINE classif. linea. sep.");
+        PerceptronADALINE p = new PerceptronADALINE(0.0012, 1000);
+        p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+    }
+
+    private void Essai5() throws IOException {
+        System.out.println("5. Perceptron Descente du Gradiant classif. linea. sep.");
+        PerceptronDG p = new PerceptronDG(0.0011, 1000);
+        p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+    }
+
+    private void Essai6() throws IOException {
+        System.out.println("6. Perceptron ADALINE classif. non linea. sep.");
+        PerceptronADALINE p = new PerceptronADALINE(0.0015, 1000);
+        p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
+    }
+
+    private void Essai7() throws IOException {
+        System.out.println("7. Perceptron Descente du Gradiant classif. non linea. sep.");
+        PerceptronDG p = new PerceptronDG(0.0015, 1000);
+        p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
+    }
+
+    private void Essai8() throws IOException {
+        System.out.println("8. Perceptron ADALINE Regression lineaire");
+        double[] Weight = new double[2];
+        Arrays.fill(Weight, 0);
+        PerceptronADALINE p = new PerceptronADALINE(Weight, 0.00014, 10000, 0.56);
+        p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
+    }
+
+    private void Essai9() throws IOException {
+        System.out.println("9. Perceptron Descente du Gradiant Regression lineaire");
+        double[] Weight = new double[2];
+        Arrays.fill(Weight, 0);
+        PerceptronDG p = new PerceptronDG(Weight, 0.000167, 10000, 0.56);
+        p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
+    }
+
+    private void Essai10() throws IOException {
+        System.out.println("10. Perceptron Monocouche 3 classes Adal-SeuilNombreErreur");
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "adaline", 0.001, 200, 0);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
+    }
+
+    private void Essai11() throws IOException {
+        System.out.println("11. Perceptron Monocouche 3 classes Adal-SeuilErrQuad");
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "adaline", 0.001, 300, 0.01);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
+
+    }
+
+    private void Essai12() throws IOException {
+        System.out.println("12. Perceptron Monocouche 3 classes DG-SeuilNombreErreur");
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "dg", 0.0001, 200, 0);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
+
+    }
+
+    private void Essai13() throws IOException {
+        System.out.println("13. Perceptron Monocouche 3 classes DG-SeuilErrQuad");
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "dg", 0.0001, 300, 0.01);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
+
+    }
+
+    private void Essai14() throws IOException {
+
+        PerceptronMonocouche p = new PerceptronMonocouche(4, "adaline", 0.001, 1000, 0);
+        p.Perceptron(CSVReader.getInput("table_3_5.csv", 4), CSVReader.getOutput("table_3_5.csv", 4));
+
+    }
+
+    private void Essai15() throws IOException {
+
+        PerceptronMonocouche p = new PerceptronMonocouche(4, "adaline", 0.001, 1000, 0.05);
+        p.Perceptron(CSVReader.getInput("table_3_5.csv", 4), CSVReader.getOutput("table_3_5.csv", 4));
+
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField choix;
     private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
