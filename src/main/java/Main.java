@@ -98,8 +98,8 @@ public class Main {
 
     private static void Essai4() throws IOException {
 
-        PerceptronADALINE p = new PerceptronADALINE(0.012, 100);
-        p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+        PerceptronADALINE p = new PerceptronADALINE(0.0012, 1000);
+        p.ClassificationTest(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
     }
 
     private static void Essai5() throws IOException {

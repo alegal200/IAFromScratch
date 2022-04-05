@@ -196,7 +196,8 @@ public class PerceptronDG {
             for (int i = 0; i < OutputExpected.length; i++) {
                 AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i] - Output[i], 2);
             }
-            AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
+            //AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
+            AVG_ERROR = AVG_ERROR / 1;
             System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
             System.out.println("  Nombre d'erreur pour l'iterationComplete " + CurrentCompleteIteration + " :" + NBR_ERRORS);
 
