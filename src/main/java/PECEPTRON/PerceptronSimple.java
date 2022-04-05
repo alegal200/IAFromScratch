@@ -31,7 +31,7 @@ public class PerceptronSimple {
 
 
 
-    public void Perceptron(int[][] Input, int[] OutputExpected) {
+    public double[] Perceptron(int[][] Input, int[] OutputExpected) {
 
         int CurrentCompleteIteration = 1;
         int NBR_ERRORS = 0;
@@ -81,6 +81,7 @@ public class PerceptronSimple {
         } while (NBR_ERRORS > getNumber_Error_Threshold()); //Si le nbr d'erreur pour une iterationComplete = 0 c'est qu'il s'est assez entrainé
 
 
+        return getWeights();
     }
 
 

@@ -78,7 +78,7 @@ public class PerceptronDG {
     }
 
 
-    public void Perceptron(double[][] Input, double[] OutputExpected) {
+    public double[] Perceptron(double[][] Input, double[] OutputExpected) {
 
         int CurrentCompleteIteration = 1;
         double AVG_ERROR = 0;
@@ -144,9 +144,10 @@ public class PerceptronDG {
         } while (AVG_ERROR > getQuad_Error_Value_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
 
 
+        return getWeights();
     }
 
-    public void Classification(double[][] Input, double[] OutputExpected) {
+    public double[] Classification(double[][] Input, double[] OutputExpected) {
 
         int CurrentCompleteIteration = 1;
         double AVG_ERROR = 0;
@@ -220,6 +221,7 @@ public class PerceptronDG {
             CurrentCompleteIteration++;
         } while (NBR_ERRORS > 0 && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
 
+        return getWeights();
     }
 
 

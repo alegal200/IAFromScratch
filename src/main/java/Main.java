@@ -1,6 +1,6 @@
+
 import CSVReader.CSVReader;
 import PECEPTRON.*;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -59,6 +59,11 @@ public class Main {
                 case 15:
                     Essai15();
                     break;
+                case 20:
+
+                    
+
+                    break;
                 default:
                     System.out.println("Choix incorrect");
                     break;
@@ -95,8 +100,8 @@ public class Main {
         return choix;
     }
 
-
     private static void Essai1() {
+        
         System.out.println("1. Perceptron Mise au point (table ET)");
         int[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
         int[] Output = {0, 0, 0, 1};
@@ -162,43 +167,46 @@ public class Main {
         PerceptronDG p = new PerceptronDG(Weight, 0.000167, 10000, 0.56);
         p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
     }
+
     private static void Essai10() throws IOException {
         System.out.println("10. Perceptron Monocouche 3 classes Adal-SeuilNombreErreur");
-        PerceptronMonocouche p = new PerceptronMonocouche(3,"adaline",0.001, 200,0 );
-        p.Perceptron(CSVReader.getInput("table_3_1.csv",3),CSVReader.getOutput("table_3_1.csv",3));
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "adaline", 0.001, 200, 0);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
     }
+
     private static void Essai11() throws IOException {
         System.out.println("11. Perceptron Monocouche 3 classes Adal-SeuilErrQuad");
-        PerceptronMonocouche p = new PerceptronMonocouche(3,"adaline",0.001, 300, 0.01);
-        p.Perceptron(CSVReader.getInput("table_3_1.csv",3),CSVReader.getOutput("table_3_1.csv",3));
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "adaline", 0.001, 300, 0.01);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
 
     }
+
     private static void Essai12() throws IOException {
         System.out.println("12. Perceptron Monocouche 3 classes DG-SeuilNombreErreur");
-        PerceptronMonocouche p = new PerceptronMonocouche(3,"dg",0.0001, 200,0 );
-        p.Perceptron(CSVReader.getInput("table_3_1.csv",3),CSVReader.getOutput("table_3_1.csv",3));
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "dg", 0.0001, 200, 0);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
 
     }
+
     private static void Essai13() throws IOException {
         System.out.println("13. Perceptron Monocouche 3 classes DG-SeuilErrQuad");
-        PerceptronMonocouche p = new PerceptronMonocouche(3,"dg",0.0001, 300, 0.01);
-        p.Perceptron(CSVReader.getInput("table_3_1.csv",3),CSVReader.getOutput("table_3_1.csv",3));
+        PerceptronMonocouche p = new PerceptronMonocouche(3, "dg", 0.0001, 300, 0.01);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
 
     }
+
     private static void Essai14() throws IOException {
 
-        PerceptronMonocouche p = new PerceptronMonocouche(4,"adaline",0.001, 1000,0);
-        p.Perceptron(CSVReader.getInput("table_3_5.csv",4),CSVReader.getOutput("table_3_5.csv",4));
+        PerceptronMonocouche p = new PerceptronMonocouche(4, "adaline", 0.001, 1000, 0);
+        p.Perceptron(CSVReader.getInput("table_3_5.csv", 4), CSVReader.getOutput("table_3_5.csv", 4));
 
     }
 
     private static void Essai15() throws IOException {
 
-        PerceptronMonocouche p = new PerceptronMonocouche(4,"adaline",0.001, 1000,0.05);
-        p.Perceptron(CSVReader.getInput("table_3_5.csv",4),CSVReader.getOutput("table_3_5.csv",4));
+        PerceptronMonocouche p = new PerceptronMonocouche(4, "adaline", 0.001, 1000, 0.05);
+        p.Perceptron(CSVReader.getInput("table_3_5.csv", 4), CSVReader.getOutput("table_3_5.csv", 4));
 
     }
 
 }
-
-

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="jcommon-1.0.10">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../Crypto/Librairies/jfreechart-1.0.6/jfreechart-1.0.6/lib/jcommon-1.0.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Crypto/Librairies/jfreechart-1.0.6/jfreechart-1.0.6/lib/jfreechart-1.0.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Crypto/Librairies/jfreechart-1.0.6/jfreechart-1.0.6/lib/jfreechart-1.0.6-swt.jar!/" />
+      <root url="file://$PROJECT_DIR$" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src/main/java" />
+    </SOURCES>
+  </library>
+</component>

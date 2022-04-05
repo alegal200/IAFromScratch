@@ -21,6 +21,15 @@
     </build>
 
 
+    <dependencies>
+        <dependency>
+    <groupId>org.jfree</groupId>
+    <artifactId>jfreechart</artifactId>
+    <version>1.0.17</version>
+        </dependency>
+    </dependencies>
+        
+        
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

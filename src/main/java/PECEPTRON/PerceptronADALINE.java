@@ -64,7 +64,7 @@ public class PerceptronADALINE {
     }
 
 
-    public void Perceptron(double[][] Input, double[] OutputExpected) {
+    public double[] Perceptron(double[][] Input, double[] OutputExpected) {
 
         int CurrentCompleteIteration = 1;
         double AVG_ERROR = 0;
@@ -128,9 +128,10 @@ public class PerceptronADALINE {
             CurrentCompleteIteration++;
         } while (AVG_ERROR > getQuad_Error_Value_Threshold() && CurrentCompleteIteration < getMAX_ITERATION());
 
+        return getWeights();
     }
 
-    public void Classification(double[][] Input, double[] OutputExpected) {
+    public double[] Classification(double[][] Input, double[] OutputExpected) {
         int CurrentCompleteIteration = 1;
         double AVG_ERROR = 0;
         int NBR_ERRORS = 0;
@@ -205,6 +206,8 @@ public class PerceptronADALINE {
 
             CurrentCompleteIteration++;
         } while (NBR_ERRORS > getNumber_Error_Threshold() && CurrentCompleteIteration < getMAX_ITERATION());
+
+        return getWeights();
     }
 
 
