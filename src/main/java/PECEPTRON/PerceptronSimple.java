@@ -6,22 +6,25 @@ package PECEPTRON;
 public class PerceptronSimple {
 
     private double[] Weights ; //Suivant une fonction Gaussienne de preference
-    private double Threshold ;
+    private double Output_Threshold;
     private double Learning_Rate ; // ]0, 1]
+    private int Number_Error_Threshold;
 
 
     public PerceptronSimple() {
         setWeights(new double[3]);
         Arrays.fill(Weights,0);
-        setThreshold(0.0);
+        setOutput_Threshold(0.0);
         setLearning_Rate(1);
+        setNumber_Error_Threshold(0);
     }
 
-    public PerceptronSimple(double[] w,double t,double lr) {
+    public PerceptronSimple(double[] w,double t,double lr,int Number_Error_Threshold) {
         setWeights(new double[w.length]);
         setWeights(Arrays.copyOf(w, w.length));
-        setThreshold(t);
+        setOutput_Threshold(t);
         setLearning_Rate(lr);
+        setNumber_Error_Threshold(Number_Error_Threshold);
     }
 
 
@@ -49,7 +52,7 @@ public class PerceptronSimple {
                 System.out.println("  k"+k+" Potentiel:"+Potential);
 
                 //Calcul de la sortie du neurone en fonction du seuil
-                if (Potential >= getThreshold()) {
+                if (Potential >= getOutput_Threshold()) {
                     Output = 1;
                 } else {
                     Output = 0;
@@ -75,7 +78,7 @@ public class PerceptronSimple {
             System.out.println("  Nombre d'erreur pour l'iterationComplete "+CurrentCompleteIteration+" :"+NBR_ERRORS);
 
             CurrentCompleteIteration++;
-        } while (NBR_ERRORS > 0); //Si le nbr d'erreur pour une iterationComplete = 0 c'est qu'il s'est bien entrainé
+        } while (NBR_ERRORS > getNumber_Error_Threshold()); //Si le nbr d'erreur pour une iterationComplete = 0 c'est qu'il s'est assez entrainé
 
 
     }
@@ -89,12 +92,12 @@ public class PerceptronSimple {
         Weights = weights;
     }
 
-    public double getThreshold() {
-        return Threshold;
+    public double getOutput_Threshold() {
+        return Output_Threshold;
     }
 
-    public void setThreshold(double threshold) {
-        Threshold = threshold;
+    public void setOutput_Threshold(double output_Threshold) {
+        Output_Threshold = output_Threshold;
     }
 
     public double getLearning_Rate() {
@@ -103,5 +106,13 @@ public class PerceptronSimple {
 
     public void setLearning_Rate(double learning_Rate) {
         Learning_Rate = learning_Rate;
+    }
+
+    public int getNumber_Error_Threshold() {
+        return Number_Error_Threshold;
+    }
+
+    public void setNumber_Error_Threshold(int number_Error_Threshold) {
+        Number_Error_Threshold = number_Error_Threshold;
     }
 }

@@ -41,6 +41,21 @@ public class Main {
                 case 9:
                     Essai9();
                     break;
+                case 10:
+                    Essai10();
+                    break;
+                case 11:
+                    Essai11();
+                    break;
+                case 12:
+                    Essai12();
+                    break;
+                case 13:
+                    Essai13();
+                    break;
+                case 14:
+                    Essai14();
+                    break;
                 default:
                     System.out.println("Choix incorrect");
                     break;
@@ -64,7 +79,12 @@ public class Main {
         System.out.println("   **********REGRESSION**********");
         System.out.println("8. Perceptron ADALINE Regression lineaire");
         System.out.println("9. Perceptron Descente du Gradiant Regression lineaire");
-        System.out.println("***********************");
+        System.out.println("**************Monocouche*********");
+        System.out.println("10. Perceptron Monocouche 3 classes Adal-SeuilErrQuad");
+        System.out.println("11. Perceptron Monocouche 3 classes Adal-SeuilNombreErreur");
+        System.out.println("12. Perceptron Monocouche 3 classes DG-SeuilErrQuad");
+        System.out.println("13. Perceptron Monocouche 3 classes DG-SeuilNombreErreur");
+        System.out.println("14. Perceptron Monocouche 4 classes");
         System.out.print("choix :");
         Scanner sc = new Scanner(System.in);
         choix = sc.nextInt();
@@ -99,7 +119,7 @@ public class Main {
     private static void Essai4() throws IOException {
 
         PerceptronADALINE p = new PerceptronADALINE(0.0012, 1000);
-        p.ClassificationTest(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+        p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
     }
 
     private static void Essai5() throws IOException {
@@ -134,6 +154,18 @@ public class Main {
         Arrays.fill(Weight, 0);
         PerceptronDG p = new PerceptronDG(Weight, 0.000167, 10000, 0.56);
         p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
+    }
+    private static void Essai10() throws IOException {
+
+        PerceptronMonocouche p = new PerceptronMonocouche(3,"adaline",0.001, 300, 0.01);
+        p.Perceptron(CSVReader.getInput("table_3_1.csv",3),CSVReader.getOutput("table_3_1.csv",3));
+
+    }
+    private static void Essai11() throws IOException {
+
+        PerceptronMonocouche p = new PerceptronMonocouche();
+        p.Perceptron(CSVReader.getInput("table_3_5.csv",4),CSVReader.getOutput("table_3_5.csv",4));
+
     }
 
 }

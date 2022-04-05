@@ -6,18 +6,21 @@ import java.util.Arrays;
 public class PerceptronDG {
 
     private double[] Weights; //Suivant une fonction Gaussienne de preference
-    private double Threshold;
+    private double Output_Threshold;
     private double Learning_Rate; // ]0, 1]
-    private double Error_Threshold;
+    private int Number_Error_Threshold;
+    private double Quad_Error_Value_Threshold;
     private int MAX_ITERATION;
     private double[] D_Weights;
+
 
     public PerceptronDG() {
         setWeights(new double[3]);
         Arrays.fill(getWeights(), 0);
-        setThreshold(0.0);
+        setOutput_Threshold(0.0);
         setLearning_Rate(0.2);
-        setError_Threshold(0.125001);
+        setNumber_Error_Threshold(0);
+        setQuad_Error_Value_Threshold(0.125001);
         setMAX_ITERATION(50);
         setD_Weights(new double[3]);
         Arrays.fill(getD_Weights(), 0);
@@ -27,31 +30,48 @@ public class PerceptronDG {
     public PerceptronDG(double learning_Rate, int MAX_ITERATION) {
         setWeights(new double[3]);
         Arrays.fill(getWeights(), 0);
-        setThreshold(0.0);
+        setOutput_Threshold(0.0);
         setLearning_Rate(learning_Rate);
-        setError_Threshold(0.125001);
+        setNumber_Error_Threshold(0);
+        setQuad_Error_Value_Threshold(0.125001);
         setMAX_ITERATION(MAX_ITERATION);
         setD_Weights(new double[3]);
         Arrays.fill(getD_Weights(), 0);
     }
 
-    public PerceptronDG(double[] weights,double learning_Rate, int MAX_ITERATION,double error_Threshold) {
+    public PerceptronDG(double learning_Rate, int MAX_ITERATION,double Quad_Error_Value_Threshold) {
+        setWeights(new double[3]);
+        Arrays.fill(getWeights(), 0);
+        setOutput_Threshold(0.0);
+        setLearning_Rate(learning_Rate);
+        setNumber_Error_Threshold(0);
+        setQuad_Error_Value_Threshold(Quad_Error_Value_Threshold);
+        setMAX_ITERATION(MAX_ITERATION);
+        setD_Weights(new double[3]);
+        Arrays.fill(getD_Weights(), 0);
+    }
+
+
+
+    public PerceptronDG(double[] weights,double learning_Rate, int MAX_ITERATION,double Quad_Error_Value_Threshold) {
         setWeights(new double[weights.length]);
         setWeights(Arrays.copyOf(weights, weights.length));
-        setThreshold(0.0);
+        setOutput_Threshold(0.0);
         setLearning_Rate(learning_Rate);
-        setError_Threshold(error_Threshold);
+        setNumber_Error_Threshold(0);
+        setQuad_Error_Value_Threshold(Quad_Error_Value_Threshold);
         setMAX_ITERATION(MAX_ITERATION);
         setD_Weights(new double[weights.length]);
         setD_Weights(Arrays.copyOf(weights, weights.length));
     }
 
-    public PerceptronDG(double[] weights, double t, double learning_Rate, double error_Threshold, int MAX_ITERATION) {
+    public PerceptronDG(double[] weights, double t, double learning_Rate, double Quad_Error_Value_Threshold, int MAX_ITERATION) {
         setWeights(new double[weights.length]);
         setWeights(Arrays.copyOf(weights, weights.length));
-        setThreshold(t);
+        setOutput_Threshold(t);
         setLearning_Rate(learning_Rate);
-        setError_Threshold(error_Threshold);
+        setNumber_Error_Threshold(0);
+        setQuad_Error_Value_Threshold(Quad_Error_Value_Threshold);
         setMAX_ITERATION(MAX_ITERATION);
         setD_Weights(new double[weights.length]);
         setD_Weights(Arrays.copyOf(weights, weights.length));
@@ -85,7 +105,7 @@ public class PerceptronDG {
                 System.out.println("  k" + k + " Sortie:" + Output[k]);
 
                 //Calcul des s du neurone en fonction du seuil
-                if (Output[k] >= getThreshold()) {
+                if (Output[k] >= getOutput_Threshold()) {
                     s = 1;
                 } else {
                     s = -1;
@@ -121,7 +141,7 @@ public class PerceptronDG {
 
             CurrentCompleteIteration++;
 
-        } while (AVG_ERROR > getError_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
+        } while (AVG_ERROR > getQuad_Error_Value_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
 
 
     }
@@ -155,7 +175,7 @@ public class PerceptronDG {
                 System.out.println("  k" + k + " Sortie:" + Output[k]);
 
                 //Calcul des s du neurone en fonction du seuil
-                if (Output[k] >= getThreshold()) {
+                if (Output[k] >= getOutput_Threshold()) {
                     s = 1;
                 } else {
                     s = -1;
@@ -166,11 +186,7 @@ public class PerceptronDG {
                 double Error = OutputExpected[k] - Output[k];
                 System.out.println("  k" + k + " ErreurCommise:" + Error);
 
-                if (OutputExpected[k] > 0 && Output[k] > 0) {
-
-                } else if (OutputExpected[k] < 0 && Output[k] < 0) {
-
-                } else if (OutputExpected[k] == Output[k]) {
+                if (s==OutputExpected[k]) {
 
                 } else {
                     NBR_ERRORS++;
@@ -215,12 +231,12 @@ public class PerceptronDG {
         Weights = weights;
     }
 
-    public double getThreshold() {
-        return Threshold;
+    public double getOutput_Threshold() {
+        return Output_Threshold;
     }
 
-    public void setThreshold(double threshold) {
-        Threshold = threshold;
+    public void setOutput_Threshold(double output_Threshold) {
+        Output_Threshold = output_Threshold;
     }
 
     public double getLearning_Rate() {
@@ -231,12 +247,12 @@ public class PerceptronDG {
         Learning_Rate = learning_Rate;
     }
 
-    public double getError_Threshold() {
-        return Error_Threshold;
+    public double getQuad_Error_Value_Threshold() {
+        return Quad_Error_Value_Threshold;
     }
 
-    public void setError_Threshold(double error_Threshold) {
-        Error_Threshold = error_Threshold;
+    public void setQuad_Error_Value_Threshold(double quad_Error_Value_Threshold) {
+        Quad_Error_Value_Threshold = quad_Error_Value_Threshold;
     }
 
     public int getMAX_ITERATION() {
@@ -253,5 +269,13 @@ public class PerceptronDG {
 
     public void setD_Weights(double[] d_Weights) {
         D_Weights = d_Weights;
+    }
+
+    public int getNumber_Error_Threshold() {
+        return Number_Error_Threshold;
+    }
+
+    public void setNumber_Error_Threshold(int number_Error_Threshold) {
+        Number_Error_Threshold = number_Error_Threshold;
     }
 }
