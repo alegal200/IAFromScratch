@@ -130,7 +130,7 @@ public class Main {
 
     private static void Essai4() throws IOException {
         System.out.println("4. Perceptron ADALINE classif. linea. sep.");
-        PerceptronADALINE p = new PerceptronADALINE(0.0012, 1000);
+        PerceptronADALINE p = new PerceptronADALINE(0.0012,     1000);
         p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
     }
 
