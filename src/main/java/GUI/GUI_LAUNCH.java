@@ -7,10 +7,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 
 public class GUI_LAUNCH extends  JFrame{
     private JButton VALIDERButton;
@@ -218,17 +215,17 @@ public class GUI_LAUNCH extends  JFrame{
         if(table == 2){
             list2.clearSelection();
             DefaultListModel<String> mymodel = new DefaultListModel<>();
-            mymodel.addElement("TABLE ET");
-            mymodel.addElement("TABLE 2.9");
-            mymodel.addElement("TABLE 2.10");
-            mymodel.addElement("TABLE 2.11");
+            mymodel.addElement("table ET");
+            mymodel.addElement("table_2_9.csv");
+            mymodel.addElement("table_2_10.csv");
+            mymodel.addElement("table_2_11.csv");
             list2.setModel(mymodel);
         }
         if(table == 3){
             list2.clearSelection();
             DefaultListModel<String> mymodel = new DefaultListModel<>();
-            mymodel.addElement("TABLE 3.1");
-            mymodel.addElement("TABLE 3.5");
+            mymodel.addElement("table_3_1.csv");
+            mymodel.addElement("table_3_5.csv");
             list2.setModel(mymodel);
         }
     }

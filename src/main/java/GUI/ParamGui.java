@@ -1,5 +1,10 @@
 package GUI;
 
+import CSVReader.CSVReader;
+import PECEPTRON.PerceptronADALINE;
+import PECEPTRON.PerceptronDG;
+import PECEPTRON.PerceptronSimple;
+
 import javax.swing.*;
 
 public class ParamGui {
@@ -135,8 +140,57 @@ public class ParamGui {
     }
 
     public void lauchALGO() {
-        // ici qu'on initialise/lance l'algorythme
+        try {
+            // ici qu'on initialise/lance l'algorythme
+            if (typePeceptron.equalsIgnoreCase("Perceptron simple")) {
+                System.out.println("1. Perceptron Mise au point (table ET)");
+                int[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
+                int[] Output = {0, 0, 0, 1};
 
+                PerceptronSimple p = new PerceptronSimple();
+                p.Perceptron(Input, Output);
+        ///////fin perecptron simple
+            } else if (typePeceptron.equalsIgnoreCase("Perceptron DG")) {
+                if (table.equalsIgnoreCase("table et")) {
+                    double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
+                    double[] Output = {-1, -1, -1, 1};
+
+                    PerceptronDG p = new PerceptronDG();
+                    p.Perceptron(Input, Output);
+                } //todo le elese
+            }
+        ///////fin perceptron dg
+            else if (typePeceptron.equalsIgnoreCase("Perceptron ADALINE")) {
+                if (table.equalsIgnoreCase("table et")) {
+                    System.out.println("3. Perceptron ADALINE(table ET)");
+                    double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
+                    double[] Output = {-1, -1, -1, 1};
+
+                    PerceptronADALINE p = new PerceptronADALINE();
+                    p.Perceptron(Input, Output);
+                } else {
+                    // adaline autre tables
+                    System.out.println("5. Perceptron adaline classif. linea. sep.");
+                    if (valerreurint == 0 && valerreurdouble == 0.0) {
+                        PerceptronADALINE p = new PerceptronADALINE(learningrate, maxiteration);
+                        p.Classification(CSVReader.getInput(table), CSVReader.getOutput(table));
+                    }else if(critereArret.equalsIgnoreCase("SeuilNombreErreur")){
+                        System.out.println("cc"); // todo a faire
+                    }else if(critereArret.equalsIgnoreCase("SeuilErrQuad")){
+                        System.out.println("coucou2"); // todo a faire
+                    }
+
+                }
+
+
+            }
+        ////////fin peceptron adaline
+            // todo monocouchee
+            // todo multicouche
+
+        }catch (Exception e) {
+            System.out.println("error " + e);
+        }
     }
 
     public JPanel getChartPanel() {
