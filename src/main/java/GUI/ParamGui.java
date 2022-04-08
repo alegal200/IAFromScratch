@@ -139,7 +139,7 @@ public class ParamGui {
         this.typePeceptron = typePeceptron;
     }
 
-    public void lauchALGO() {
+    public double[] lauchALGO() {
         try {
             // ici qu'on initialise/lance l'algorythme
             if (typePeceptron.equalsIgnoreCase("Perceptron simple")) {
@@ -148,7 +148,7 @@ public class ParamGui {
                 int[] Output = {0, 0, 0, 1};
 
                 PerceptronSimple p = new PerceptronSimple();
-                p.Perceptron(Input, Output);
+                return p.Perceptron(Input, Output);
         ///////fin perecptron simple
             } else if (typePeceptron.equalsIgnoreCase("Perceptron DG")) {
                 if (table.equalsIgnoreCase("table et")) {
@@ -156,7 +156,7 @@ public class ParamGui {
                     double[] Output = {-1, -1, -1, 1};
 
                     PerceptronDG p = new PerceptronDG();
-                    p.Perceptron(Input, Output);
+                    return p.Perceptron(Input, Output);
                 } //todo le elese
             }
         ///////fin perceptron dg
@@ -167,13 +167,13 @@ public class ParamGui {
                     double[] Output = {-1, -1, -1, 1};
 
                     PerceptronADALINE p = new PerceptronADALINE();
-                    p.Perceptron(Input, Output);
+                    return p.Perceptron(Input, Output);
                 } else {
                     // adaline autre tables
                     System.out.println("5. Perceptron adaline classif. linea. sep.");
                     if (valerreurint == 0 && valerreurdouble == 0.0) {
                         PerceptronADALINE p = new PerceptronADALINE(learningrate, maxiteration);
-                        p.Classification(CSVReader.getInput(table), CSVReader.getOutput(table));
+                        return p.Classification(CSVReader.getInput(table), CSVReader.getOutput(table));
                     }else if(critereArret.equalsIgnoreCase("SeuilNombreErreur")){
                         System.out.println("cc"); // todo a faire
                     }else if(critereArret.equalsIgnoreCase("SeuilErrQuad")){
@@ -191,6 +191,7 @@ public class ParamGui {
         }catch (Exception e) {
             System.out.println("error " + e);
         }
+        return null;
     }
 
     public JPanel getChartPanel() {
