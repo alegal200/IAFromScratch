@@ -67,13 +67,13 @@ public class GUI_LAUNCH extends  JFrame{
             }
         });
 
-
+/*
         mtextfield.addCaretListener(new CaretListener() {
-            @Override
+         @Override
             public void caretUpdate(CaretEvent e) {
                 nbrClassChange();
             }
-        });
+        });*/
     }
     ////////////////////////////////////////////////////////fin constructeur
 
@@ -182,24 +182,21 @@ public class GUI_LAUNCH extends  JFrame{
             mcombo2.setVisible(true);
             mLabel1.setVisible(true);
             mLabel2.setVisible(true);
-            mLabel3.setVisible(true);
-            mtextfield.setVisible(true);
+
         }
         else if(activate == 2){
             mcombo1.setVisible(false);
             mcombo2.setVisible(true);
             mLabel1.setVisible(false);
             mLabel2.setVisible(true);
-            mLabel3.setVisible(false);
-            mtextfield.setVisible(false);
+
         }
         else{
             mcombo1.setVisible(false);
             mcombo2.setVisible(false);
             mLabel1.setVisible(false);
             mLabel2.setVisible(false);
-            mLabel3.setVisible(false);
-            mtextfield.setVisible(false);
+
 
         }
        //adal // dg
