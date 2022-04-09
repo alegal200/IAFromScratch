@@ -29,6 +29,7 @@ public class GUI_CHART {
     private JTextField textField3;
     private JTextField textField4;
     private JPanel chartpanel;
+    private JTextField textField2;
     private GUI_LAUNCH gui_launch;
 
     public GUI_CHART(GUI_LAUNCH gui_lach) {
@@ -79,6 +80,18 @@ public class GUI_CHART {
                 }
             }
         });
+        textField4.addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                nbrClassChange();
+            }
+        });
+    }
+
+    private void nbrClassChange() {
+        try {
+            gui_launch.getParamgui().setNbrclass(Integer.parseInt(textField2.getText()));
+        }catch (Exception e ){gui_launch.getParamgui().setNbrclass(0);}
     }
 
     private void maxIterationChange() {

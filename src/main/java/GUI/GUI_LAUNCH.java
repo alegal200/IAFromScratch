@@ -132,7 +132,7 @@ public class GUI_LAUNCH extends  JFrame{
                 break;
             case "Perceptron DG":
                 System.out.println("dg");
-                showCombobox(2);
+                showCombobox(0);
                 selectTables(2);
                 paramGui.setAlgo("ADALINE");
                 paramGui.setCritereArret("SeuilNombreErreur");
@@ -144,7 +144,7 @@ public class GUI_LAUNCH extends  JFrame{
                 break;
             case "Perceptron ADALINE":
                 System.out.println("adaline");
-                showCombobox(2);
+                showCombobox(0);
                 selectTables(2);
                 paramGui.setAlgo("ADALINE");
                 paramGui.setCritereArret("SeuilNombreErreur");

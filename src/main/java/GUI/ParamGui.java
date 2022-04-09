@@ -6,6 +6,7 @@ import PECEPTRON.PerceptronDG;
 import PECEPTRON.PerceptronSimple;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 public class ParamGui {
     private String table ;
@@ -53,7 +54,7 @@ public class ParamGui {
                 return true;
             }else if( (typePeceptron.equalsIgnoreCase("Perceptron DG") || typePeceptron.equalsIgnoreCase("Perceptron ADALINE")) && critereArret != null ){
                 return true ;
-            }else if(typePeceptron.equalsIgnoreCase("Perceptron mono-couche" ) && nbrclass > 0 && critereArret != null ){
+            }else if(typePeceptron.equalsIgnoreCase("Perceptron mono-couche" )  && critereArret != null ){
                 return true ;
             }
 
@@ -157,7 +158,19 @@ public class ParamGui {
 
                     PerceptronDG p = new PerceptronDG();
                     return p.Perceptron(Input, Output);
-                } //todo le elese
+                } else {
+                    if (valerreurint == 0 && valerreurdouble == 0.0) {
+                        PerceptronDG p = new PerceptronDG(learningrate, maxiteration);
+                        p.Classification(CSVReader.getInput(table), CSVReader.getOutput(table));
+                    }else{
+                        double[] Weight = new double[this.nbrclass];
+                        Arrays.fill(Weight, 0);
+                        PerceptronDG p = new PerceptronDG(Weight, learningrate, maxiteration, valerreurdouble);
+                        p.Classification(CSVReader.getInput(table), CSVReader.getOutput(table));
+
+                    }
+
+                }
             }
         ///////fin perceptron dg
             else if (typePeceptron.equalsIgnoreCase("Perceptron ADALINE")) {
@@ -174,10 +187,11 @@ public class ParamGui {
                     if (valerreurint == 0 && valerreurdouble == 0.0) {
                         PerceptronADALINE p = new PerceptronADALINE(learningrate, maxiteration);
                         return p.Classification(CSVReader.getInput(table), CSVReader.getOutput(table));
-                    }else if(critereArret.equalsIgnoreCase("SeuilNombreErreur")){
-                        System.out.println("cc"); // todo a faire
-                    }else if(critereArret.equalsIgnoreCase("SeuilErrQuad")){
-                        System.out.println("coucou2"); // todo a faire
+                    }else {
+                        double[] Weight = new double[this.nbrclass];
+                        Arrays.fill(Weight, 0);
+                        PerceptronADALINE p = new PerceptronADALINE(Weight, learningrate, maxiteration, valerreurdouble);
+                        p.Classification(CSVReader.getInput(table), CSVReader.getOutput(table));
                     }
 
                 }
@@ -186,6 +200,11 @@ public class ParamGui {
             }
         ////////fin peceptron adaline
             // todo monocouchee
+            else if (typePeceptron.equalsIgnoreCase("Perceptron mono-couche")) {
+
+
+
+            }
             // todo multicouche
 
         }catch (Exception e) {
