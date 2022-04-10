@@ -68,12 +68,19 @@ public class GUI_CHART {
                 if( gui_launch.getParamgui().CanBeLaunch() ){
                     System.out.println(" lancement de l algo");
 
-                    double[] weight = gui_launch.getParamgui().lauchALGO();
+                    //Si c'est un monocouche, le graphique se lance dans le code de la classe et donc pas besoin de l'afficher ici
+                    if(!(gui_launch.getParamgui().getTypePeceptron().equalsIgnoreCase("Perceptron mono-couche" )))
+                    {
+                        double[] weight = gui_launch.getParamgui().lauchALGO();
 
-                    Chart chart = new Chart("Graphique",gui_launch.getParamgui().getTable(),weight);
-                    chart.pack();
-                    RefineryUtilities.centerFrameOnScreen(chart);
-                    chart.setVisible(true);
+                        Chart chart = new Chart("Graphique",gui_launch.getParamgui().getTable(),weight);
+                        chart.pack();
+                        RefineryUtilities.centerFrameOnScreen(chart);
+                        chart.setVisible(true);
+                    }else{
+                        gui_launch.getParamgui().lauchALGO();
+                    }
+
 
 
                 }
