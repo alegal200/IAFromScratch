@@ -1,9 +1,13 @@
 package PECEPTRON;
 
 import CSVReader.CSVReader;
+import JfreeChartPack.Chart;
+import org.jfree.ui.RefineryUtilities;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /*
     2 constructeurs different : avec Quad_Error_Value_Threshold ou avec Number_Error_Threshold
@@ -46,38 +50,65 @@ public class PerceptronMonocouche {
 
     public void Perceptron(double[][] Input, double[][] Output) throws IOException {
 
+        //Remplissage des points uniquement sans l entre fictive
+        double[][] listPoints = new double[Input.length][2];
+        for(int i=0;i<Input.length;i++)
+        {
+            listPoints[i][0]=Input[i][1];
+            listPoints[i][1]=Input[i][2];
+        }
+
+        double[][] listWeights=new double[getNumber_of_classes()][Input[0].length];
+
         switch (getNumber_of_classes()) {
             case 3:
                 if (getType_Algo().equals("adaline")) {
-                    if (getQuad_Error_Value_Threshold() != 0) {
+                    if (getQuad_Error_Value_Threshold() != 0) { //Perceptron Monocouche 3 classes Adal-SeuilErrQuad
                         for (int i = 1; i <= getNumber_of_classes(); i++) {
                             System.out.println("Entrainement du neuronnes " + i);
                             PerceptronADALINE p = new PerceptronADALINE(getLearning_Rate(), getMAX_ITERATION(), getQuad_Error_Value_Threshold());
-                            p.Perceptron(Input, CSVReader.getOutput(Output, i));
+                            double[] w=p.Perceptron(Input, CSVReader.getOutput(Output, i));
+                            for(int j=0;j< w.length;j++)
+                            {
+                                listWeights[i-1][j]=w[j];
+                            }
                             System.out.println("Fin de l entrainement du neuronnes " + i);
                         }
-                    } else {
+                    } else { //Perceptron Monocouche 3 classes Adal-SeuilNombreErreur
                         for (int i = 1; i <= getNumber_of_classes(); i++) {
                             System.out.println("Entrainement du neuronnes " + i);
                             PerceptronADALINE p = new PerceptronADALINE(getLearning_Rate(), getMAX_ITERATION(), getNumber_Error_Threshold());
-                            p.Classification(Input, CSVReader.getOutput(Output, i));
+                            double[] w=p.Classification(Input, CSVReader.getOutput(Output, i));
+                            for(int j=0;j< w.length;j++)
+                            {
+                                listWeights[i-1][j]=w[j];
+                            }
                             System.out.println("Fin de l entrainement du neuronnes " + i);
                         }
                     }
+
 
                 } else {
                     if (getQuad_Error_Value_Threshold() != 0) {
                         for (int i = 1; i <= getNumber_of_classes(); i++) {
                             System.out.println("Entrainement du neuronnes " + i);
                             PerceptronDG p = new PerceptronDG(getLearning_Rate(), getMAX_ITERATION(), getQuad_Error_Value_Threshold());
-                            p.Perceptron(Input, CSVReader.getOutput(Output, i));
+                            double[] w=p.Perceptron(Input, CSVReader.getOutput(Output, i));
+                            for(int j=0;j< w.length;j++)
+                            {
+                                listWeights[i-1][j]=w[j];
+                            }
                             System.out.println("Fin de l entrainement du neuronnes " + i);
                         }
                     } else {
                         for (int i = 1; i <= getNumber_of_classes(); i++) {
                             System.out.println("Entrainement du neuronnes " + i);
                             PerceptronDG p = new PerceptronDG(getLearning_Rate(), getMAX_ITERATION(), getNumber_Error_Threshold());
-                            p.Perceptron(Input, CSVReader.getOutput(Output, i));
+                            double[] w=p.Perceptron(Input, CSVReader.getOutput(Output, i));
+                            for(int j=0;j< w.length;j++)
+                            {
+                                listWeights[i-1][j]=w[j];
+                            }
                             System.out.println("Fin de l entrainement du neuronnes " + i);
                         }
                     }
@@ -110,8 +141,9 @@ public class PerceptronMonocouche {
                 System.out.println("Mauvais nombre de classe");
                 break;
 
-        }
 
+        }
+        displayChart(listPoints,listWeights);
 
     }
 
@@ -163,4 +195,24 @@ public class PerceptronMonocouche {
     public void setNumber_Error_Threshold(int number_Error_Threshold) {
         Number_Error_Threshold = number_Error_Threshold;
     }
+
+
+    public void transferWeight(double[][] lw,double[] w){
+        for(int i=0;i<w.length;i++)
+        {
+            lw[lw.length][i]=w[i];
+        }
+
+    }
+
+    public void displayChart(double[][]points,double[][] weights)
+    {
+        System.out.println("Points:" + Arrays.deepToString(points));
+        System.out.println("Poid:" + Arrays.deepToString(weights));
+        Chart chart = new Chart("Graphique",points,weights);
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+    }
+
 }

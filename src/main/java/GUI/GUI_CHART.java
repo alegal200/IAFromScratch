@@ -70,10 +70,10 @@ public class GUI_CHART {
 
                     double[] weight = gui_launch.getParamgui().lauchALGO();
 
-                    Chart regressiondemo1 = new Chart("Graphique",gui_launch.getParamgui().getTable(),weight);
-                    regressiondemo1.pack();
-                    RefineryUtilities.centerFrameOnScreen(regressiondemo1);
-                    regressiondemo1.setVisible(true);
+                    Chart chart = new Chart("Graphique",gui_launch.getParamgui().getTable(),weight);
+                    chart.pack();
+                    RefineryUtilities.centerFrameOnScreen(chart);
+                    chart.setVisible(true);
 
 
                 }
