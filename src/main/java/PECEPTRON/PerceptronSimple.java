@@ -31,7 +31,7 @@ public class PerceptronSimple {
 
 
 
-    public double[] Perceptron(int[][] Input, int[] OutputExpected) {
+    public double[] Perceptron(double[][] Input, double[] OutputExpected) {
 
         int CurrentCompleteIteration = 1;
         int NBR_ERRORS = 0;

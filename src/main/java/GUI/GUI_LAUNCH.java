@@ -206,13 +206,13 @@ public class GUI_LAUNCH extends  JFrame{
         if(table == 1){
             list2.clearSelection();
             DefaultListModel<String> mymodel = new DefaultListModel<>();
-            mymodel.addElement("TABLE ET");
+            mymodel.addElement("table_2_1.csv");
             list2.setModel(mymodel);
         }
         if(table == 2){
             list2.clearSelection();
             DefaultListModel<String> mymodel = new DefaultListModel<>();
-            mymodel.addElement("table ET");
+            mymodel.addElement("table_2_1.csv");
             mymodel.addElement("table_2_9.csv");
             mymodel.addElement("table_2_10.csv");
             mymodel.addElement("table_2_11.csv");

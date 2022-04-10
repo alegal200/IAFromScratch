@@ -21,7 +21,7 @@ public class PerceptronDG {
         setLearning_Rate(0.2);
         setNumber_Error_Threshold(0);
         setQuad_Error_Value_Threshold(0.125001);
-        setMAX_ITERATION(50);
+        setMAX_ITERATION(100);
         setD_Weights(new double[3]);
         Arrays.fill(getD_Weights(), 0);
 

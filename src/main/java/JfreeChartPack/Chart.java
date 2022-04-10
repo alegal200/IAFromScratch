@@ -27,15 +27,18 @@ public class Chart extends ApplicationFrame {
     private XYDataset data1;
     private String table;
     private double[] weights;
+    double bigX_temp = 0; //Stock le plus grand x
+    double smallX_temp = 0; //Stock le plus petit x
 
-    public Chart(String title,String table,double[] weight) {
+    public Chart(String title, String table, double[] weight) {
         super(title);
-        data1 = createSampleData1();
         setTable(table);
         setWeights(new double[weight.length]);
         setWeights(Arrays.copyOf(weight, weight.length));
+        data1 = createSampleData1();
         getContentPane().add(createContent());
     }
+
     public Chart(String title) {
         super(title);
         data1 = createSampleData1();
@@ -55,8 +58,26 @@ public class Chart extends ApplicationFrame {
         numberaxis1.setAutoRangeIncludesZero(false);
         XYLineAndShapeRenderer xylineandshaperenderer = new XYLineAndShapeRenderer(false, true);
         XYPlot xyplot = new XYPlot(data1, numberaxis, numberaxis1, xylineandshaperenderer);
-        LineFunction2D linefunction2d = new LineFunction2D(3, -3);
-        XYDataset xydataset = DatasetUtilities.sampleFunction2D(linefunction2d, 0, 15, 100, "Linear line");
+
+
+        double a = 0, b = 0;
+        if(getWeights().length==3) //Si equ cart dimension 2
+        {
+            b =(-1)* (getWeights()[0]/getWeights()[2]);
+            a =(-1)* (getWeights()[1]/getWeights()[2]);
+
+        }else if(getWeights().length==2) //Si equ cart dimension 1 (regression)
+        {
+            a=getWeights()[1];
+            b=getWeights()[0];
+        }
+
+        System.out.println("b"+b);
+        System.out.println("a"+a);
+
+        LineFunction2D linefunction2d = new LineFunction2D(b, a);
+
+        XYDataset xydataset = DatasetUtilities.sampleFunction2D(linefunction2d, smallX_temp-4, bigX_temp+4, 100, "Linear line");
         xyplot.setDataset(1, xydataset);
         XYLineAndShapeRenderer xylineandshaperenderer1 = new XYLineAndShapeRenderer(true, false);
         xylineandshaperenderer1.setSeriesPaint(0, Color.blue);
@@ -86,9 +107,7 @@ public class Chart extends ApplicationFrame {
         xyseries.add(10D, 14.210000000000001D);
         xyseries.add(11D, 12.44D);
          */
-        String filePath = System.getProperty("user.dir") + "\\src\\main\\java\\CSVReader\\CSV\\" + "table_2_9.csv";
-        System.out.println("getTbale"+getTable());
-        System.out.println(filePath);
+        String filePath = System.getProperty("user.dir") + "\\src\\main\\java\\CSVReader\\CSV\\" + getTable();
         FileReader fileReader = null;
         try {
             fileReader = new FileReader(filePath);
@@ -97,22 +116,36 @@ public class Chart extends ApplicationFrame {
         }
         BufferedReader reader = new BufferedReader(fileReader);
 
-        try {
+        //Affiche les point de la table
 
+        try {
             int currLine = 0;
             while ((line = reader.readLine()) != null) {
                 String[] token = line.split(delimiter);
-                for(int i=0; i<getWeights().length-1 ;i++) //-1 car on ne veut que les points sans l'entre fictive
-                {
-                    xyseries.add(Double.parseDouble(token[i]),Double.parseDouble(token[i+1]));
+
+                if (currLine == 0) {//Uniquement pour la premier iteration
+                    bigX_temp = Double.parseDouble(token[0]);
+                    smallX_temp = Double.parseDouble(token[0]);
                 }
+
+                xyseries.add(Double.parseDouble(token[0]), Double.parseDouble(token[1]));
+
+                //On cherche le plus petit et plus grand x
+                if (Double.parseDouble(token[0]) < smallX_temp) {
+                    smallX_temp = Double.parseDouble(token[0]);
+                }
+                if (Double.parseDouble(token[0]) > bigX_temp) {
+                    bigX_temp = Double.parseDouble(token[0]);
+                }
+
 
                 currLine++;
             }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
         XYSeriesCollection xyseriescollection = new XYSeriesCollection(xyseries);

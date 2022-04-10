@@ -1,6 +1,9 @@
 
 import CSVReader.CSVReader;
+import JfreeChartPack.Chart;
 import PECEPTRON.*;
+import org.jfree.ui.RefineryUtilities;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -100,56 +103,86 @@ public class Main {
         return choix;
     }
 
-    private static void Essai1() {
+    private static void Essai1()  throws IOException{
         
         System.out.println("1. Perceptron Mise au point (table ET)");
         int[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
         int[] Output = {0, 0, 0, 1};
 
         PerceptronSimple p = new PerceptronSimple();
-        p.Perceptron(Input, Output);
+
+        double[] weight = p.Perceptron(CSVReader.getInput("table_2_1.csv"), CSVReader.getOutput("table_2_1.csv"));
+
+        Chart regressiondemo1 = new Chart("Graphique","table_2_1.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
-    private static void Essai2() {
+    private static void Essai2()  throws IOException{
         System.out.println("2. Perceptron Descente du Gradiant (table ET)");
         double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
         double[] Output = {-1, -1, -1, 1};
 
         PerceptronDG p = new PerceptronDG();
-        p.Perceptron(Input, Output);
+        double[] weight = p.Perceptron(CSVReader.getInput("table_2_3.csv"), CSVReader.getOutput("table_2_3.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_3.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
-    private static void Essai3() {
+    private static void Essai3() throws IOException {
         System.out.println("3. Perceptron ADALINE(table ET)");
         double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
         double[] Output = {-1, -1, -1, 1};
 
         PerceptronADALINE p = new PerceptronADALINE();
-        p.Perceptron(Input, Output);
+        double[] weight = p.Perceptron(CSVReader.getInput("table_2_3.csv"), CSVReader.getOutput("table_2_3.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_3.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
     private static void Essai4() throws IOException {
         System.out.println("4. Perceptron ADALINE classif. linea. sep.");
-        PerceptronADALINE p = new PerceptronADALINE(0.0012,     1000);
-        p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+        PerceptronADALINE p = new PerceptronADALINE(0.012,     1000);
+        double[] weight = p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_9.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
     private static void Essai5() throws IOException {
         System.out.println("5. Perceptron Descente du Gradiant classif. linea. sep.");
         PerceptronDG p = new PerceptronDG(0.0011, 1000);
-        p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+        double[] weight = p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_9.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
     private static void Essai6() throws IOException {
         System.out.println("6. Perceptron ADALINE classif. non linea. sep.");
         PerceptronADALINE p = new PerceptronADALINE(0.0015, 1000);
-        p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
+        double[] weight = p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_10.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
     private static void Essai7() throws IOException {
         System.out.println("7. Perceptron Descente du Gradiant classif. non linea. sep.");
         PerceptronDG p = new PerceptronDG(0.0015, 1000);
-        p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
+        double[] weight = p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_10.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
     private static void Essai8() throws IOException {
@@ -157,7 +190,11 @@ public class Main {
         double[] Weight = new double[2];
         Arrays.fill(Weight, 0);
         PerceptronADALINE p = new PerceptronADALINE(Weight, 0.00014, 10000, 0.56);
-        p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
+        double[] weight = p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_11.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
     private static void Essai9() throws IOException {
@@ -165,13 +202,18 @@ public class Main {
         double[] Weight = new double[2];
         Arrays.fill(Weight, 0);
         PerceptronDG p = new PerceptronDG(Weight, 0.000167, 10000, 0.56);
-        p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
+        double[] weight = p.Perceptron(CSVReader.getInput("table_2_11.csv"), CSVReader.getOutput("table_2_11.csv"));
+        Chart regressiondemo1 = new Chart("Graphique","table_2_11.csv",weight);
+        regressiondemo1.pack();
+        RefineryUtilities.centerFrameOnScreen(regressiondemo1);
+        regressiondemo1.setVisible(true);
     }
 
     private static void Essai10() throws IOException {
         System.out.println("10. Perceptron Monocouche 3 classes Adal-SeuilNombreErreur");
         PerceptronMonocouche p = new PerceptronMonocouche(3, "adaline", 0.001, 200, 0);
         p.Perceptron(CSVReader.getInput("table_3_1.csv", 3), CSVReader.getOutput("table_3_1.csv", 3));
+
     }
 
     private static void Essai11() throws IOException {

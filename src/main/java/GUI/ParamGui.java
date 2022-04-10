@@ -145,19 +145,19 @@ public class ParamGui {
             // ici qu'on initialise/lance l'algorythme
             if (typePeceptron.equalsIgnoreCase("Perceptron simple")) {
                 System.out.println("1. Perceptron Mise au point (table ET)");
-                int[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
-                int[] Output = {0, 0, 0, 1};
+                double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
+                double[] Output = {0, 0, 0, 1};
 
                 PerceptronSimple p = new PerceptronSimple();
-                return p.Perceptron(Input, Output);
+                return p.Perceptron(CSVReader.getInput(table),  CSVReader.getOutput(table));
         ///////fin perecptron simple
             } else if (typePeceptron.equalsIgnoreCase("Perceptron DG")) {
-                if (table.equalsIgnoreCase("table et")) {
+                if (table.equalsIgnoreCase("table_2_1.csv")) {
                     double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
                     double[] Output = {-1, -1, -1, 1};
 
                     PerceptronDG p = new PerceptronDG();
-                    return p.Perceptron(Input, Output);
+                    return p.Perceptron(CSVReader.getInput(table), CSVReader.getOutput(table));
                 } else {
                     if (valerreurint == 0 && valerreurdouble == 0.0) {
                         PerceptronDG p = new PerceptronDG(learningrate, maxiteration);
@@ -174,13 +174,13 @@ public class ParamGui {
             }
         ///////fin perceptron dg
             else if (typePeceptron.equalsIgnoreCase("Perceptron ADALINE")) {
-                if (table.equalsIgnoreCase("table et")) {
+                if (table.equalsIgnoreCase("table_2_1.csv")) {
                     System.out.println("3. Perceptron ADALINE(table ET)");
                     double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
                     double[] Output = {-1, -1, -1, 1};
 
                     PerceptronADALINE p = new PerceptronADALINE();
-                    return p.Perceptron(Input, Output);
+                    return p.Perceptron(CSVReader.getInput(table), CSVReader.getOutput(table));
                 } else {
                     // adaline autre tables
                     System.out.println("5. Perceptron adaline classif. linea. sep.");

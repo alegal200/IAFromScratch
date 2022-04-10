@@ -204,32 +204,32 @@ public class GUI_RNA extends javax.swing.JFrame {
         });
     }
 
-    private void Essai1() {
+    private  void Essai1()  throws IOException{
 
         System.out.println("1. Perceptron Mise au point (table ET)");
         int[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
         int[] Output = {0, 0, 0, 1};
 
         PerceptronSimple p = new PerceptronSimple();
-        p.Perceptron(Input, Output);
+        p.Perceptron(CSVReader.getInput("table_2_1.csv"), CSVReader.getOutput("table_2_1.csv"));
     }
 
-    private void Essai2() {
+    private void Essai2() throws IOException {
         System.out.println("2. Perceptron Descente du Gradiant (table ET)");
         double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
         double[] Output = {-1, -1, -1, 1};
 
         PerceptronDG p = new PerceptronDG();
-        p.Perceptron(Input, Output);
+        p.Perceptron(CSVReader.getInput("table_2_1.csv"), CSVReader.getOutput("table_2_1.csv"));
     }
 
-    private void Essai3() {
+    private void Essai3()  throws IOException{
         System.out.println("3. Perceptron ADALINE(table ET)");
         double[][] Input = {{1, 0, 0}, {1, 0, 1}, {1, 1, 0}, {1, 1, 1}}; //Le premier 1 est l'entrée fictive
         double[] Output = {-1, -1, -1, 1};
 
         PerceptronADALINE p = new PerceptronADALINE();
-        p.Perceptron(Input, Output);
+        p.Perceptron(CSVReader.getInput("table_2_1.csv"), CSVReader.getOutput("table_2_1.csv"));
     }
 
     private void Essai4() throws IOException {
