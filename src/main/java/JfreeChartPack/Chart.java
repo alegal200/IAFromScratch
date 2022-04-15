@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 public class Chart extends ApplicationFrame {
 
-    private static final int RangeX = 2;
+    private static final double RangeX = 0.5;
 
     private XYDataset data1;
     private String table;

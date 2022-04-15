@@ -251,4 +251,12 @@ public class Main {
 
     }
 
+    private static void Essai16() throws IOException {
+        System.out.println("15. Perceptron Multicouche XOR (2 classes)");
+        PerceptronMulticouches p = new PerceptronMulticouches(2,2,1);
+        p.Perceptron(CSVReader.getInput("table_4_3.csv", 4), CSVReader.getOutput("table_4_3.csv", 4));
+
+    }
+
+
 }
