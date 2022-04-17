@@ -111,18 +111,22 @@ public class PerceptronMulticouches {
                  // 3
                  // 3.a correction des poids synaptiques de la couche de sortie
 
+
                  for (int j = 0; j < sortie_C.length; j++) {
-                     System.out.println("");
-                     for (int i = 0; i < weight_Exit.length; i++) {
+                     for (int i = 0; i < sortie_C.length; i++) { //todo mauvaise borne
+
+                        System.out.println("weight_Exit.length"+weight_Exit.length+" sortie_C.length"+sortie_C.length);
                          weight_Exit[j][i] += learning_Rate * signal_erreur_S[j] * sortie_C[i];
                          System.out.print(" S" + j + "weights[" + i + "] " + weight_Exit[j][i]);
                      }
+
                  }
                  System.out.println(" ");
 
                  // 3.b correction des poids de la couche cachée
-                 for (int i = 0; i < weight_Cache.length; i++) {
-                     for (int j = 0; j < signal_erreur_c_cumule.length + 1; j++) {
+                 for (int i = 0; i < weight_Cache.length ; i++) {
+                     for (int j = 0; j < signal_erreur_c_cumule.length + 1; j++) {// todo mauvaises bornes
+                         System.out.println("weight_Cache.length "+weight_Cache.length +" signal_erreur_c_cumule.length "+signal_erreur_c_cumule.length);
                          weight_Cache[i][j] += learning_Rate * signal_erreur_c_cumule[i + 1] * entry[j][numLigneEntry];
                          //System.out.println("cal :"+ weight_Cache[i][j] +"+"+ learning_Rate+"*"+ signal_erreur_c_cumule[i+1]+"*"+entry[j][numLigneEntry]);
                          System.out.print(" weight_Cache[" + i + "][" + j + "] " + weight_Cache[i][j]);
