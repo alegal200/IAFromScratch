@@ -1,175 +1,218 @@
 package PECEPTRON;
 
-
-
 public class PerceptronMulticouches {
+    // nb couchée entree
+    // bb cachée
+    // nb sortie
+    // learning rate
+    // entre
+    // sortie souhaitée
+    // nombre interation max
+    // erreur quadr threshold
+    // poids
+    private int nb_Entry;
+    private int nb_Peceptrons_Cahe;
+    private int nb_Peceptrons_Sortie;
+    private double learning_Rate ;
+    private int nb_inte_max ;
+    private double erreur_Quad_Thread ;
+    private double[] []entry ;
+    private double[] [] exit ;
+    private double[][] weight_Cache ;
+    private double[][] weight_Exit ;
+    private int numLigneEntry ;
 
-    private int Nbr_Of_Neurones_DummyLayer;
-    private int Nbr_Of_Neurones_HiddenLayer;
-    private int Nbr_Of_Neurones_OutputLayer;
-    private double[] Entry ={1,0.9,0.1,0.9}; //Entré x0 a 1 comme d'habitude
-    private double[] Out ={0.1,0.9,0.9};
-
-    public PerceptronMulticouches()
-    {
-        setNbr_Of_Neurones_DummyLayer(0);
-        setNbr_Of_Neurones_HiddenLayer(0);
-        setNbr_Of_Neurones_OutputLayer(0);
-
-
+    public PerceptronMulticouches(int nb_Entry , int nb_Peceptrons_Cahe , int nb_Peceptrons_Sortie, double learning_Rate , int nb_inte_max , double erreur_Quad_Thread){
+        setNb_Entry(nb_Entry);
+        setErreur_Quad_Thread(erreur_Quad_Thread);
+        setLearning_Rate(learning_Rate);
+        setNb_inte_max(nb_inte_max);
+        setNb_Peceptrons_Cahe(nb_Peceptrons_Cahe);
+        setNb_Peceptrons_Sortie(nb_Peceptrons_Sortie);
+        numLigneEntry =0 ;
     }
+  //  public void Peceptron(double[][] en , double[][] ex ){peceptron(en , ex , null , null);}
+    public void Peceptron(double[][] eentry , double[][] eexit ,double[][] wweight_Cache , double[][] wweight_Exit ) {
+        entry = eentry;
+        exit = eexit;
+        weight_Cache = wweight_Cache;
+        weight_Exit = wweight_Exit;
 
-    public PerceptronMulticouches(int Nbr_Of_Neurones_DummyLayer,int Nbr_Of_Neurones_HiddenLayer,int Nbr_Of_Neurones_OutputLayer)
-    {
-        setNbr_Of_Neurones_DummyLayer(Nbr_Of_Neurones_DummyLayer);
-        setNbr_Of_Neurones_HiddenLayer(Nbr_Of_Neurones_HiddenLayer);
-        setNbr_Of_Neurones_OutputLayer(Nbr_Of_Neurones_OutputLayer);
-    }
+        int currentCompleteIteration = 1;
+        double AVG_ERROR = 0;
 
-    public void Perceptron()
-    {
-        //Exemple pour un multi-couches 3-2-3
-
-        //0 Initialisation des poids des neurones de la couche caché
-        double[] C1_Weights ={0,0.1,0.15,0.05};
-        double[] C2_Weights ={0,0.12,0.18,0.08};
-        //Initialisation des poids des neuronnes couche sortie
-        double[] S1_Weights ={0,0.1,0.14};
-        double[] S2_Weights ={0,0.125,0.21};
-        double[] S3_Weights ={0,0.13,0.07};
-        double learning_Rate = 1.0 ;
-
-        for (int m = 0; m < 2; m++) {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!boucle "+(m+1)+"x");
-
+         do {
+            System.out.println("tour n: " + currentCompleteIteration);
+            double potentiel_C[] = new double[nb_Peceptrons_Cahe];
+            double sortie_C[] = new double[nb_Peceptrons_Cahe + 1];
+            sortie_C[0] = 1;
             //1.Propagation des données d'entrée (x1, x2, ..., xE) à travers le réseau :
             //1.a) Calcul des potentiels kc et sortie yc de chaque neurone de la couche caché
-            double potentiel_C1 = 0;
-            double potentiel_C2 = 0;
-            for (int i = 0; i < Entry.length; i++) {
-                potentiel_C1 = potentiel_C1 + (C1_Weights[i] * Entry[i]);
-                potentiel_C2 = potentiel_C2 + (C2_Weights[i] * Entry[i]);
+            for (int j = 0; j <= potentiel_C.length - 1; j++) {
+                for (int i = 0; i <= entry.length - 1; i++) {
+                    potentiel_C[j] += weight_Cache[j][i] * entry[i][numLigneEntry];//
+                }
+                System.out.println("potentiel_C" + j + " " + potentiel_C[j]);
+                sortie_C[j + 1] = 1 / (1 + Math.pow(Math.E, -potentiel_C[j]));
+                System.out.println("sortie_c" + j + " " + sortie_C[j]);
             }
+            ////1.b) Calcul des potentiels ps et sories zs de chaque neurone de la couche de sortie (fonction logistique comme fonction d'activation)
+            double potentiel_S[] = new double[nb_Peceptrons_Sortie];
+            double sortie_S[] = new double[nb_Peceptrons_Sortie];
+            for (int j = 0; j < potentiel_S.length; j++) {
 
-            System.out.println("potentiel_C1:" + potentiel_C1);
-            System.out.println("potentiel_C2:" + potentiel_C2);
+                for (int i = 0; i < sortie_C.length; i++) {
+                    potentiel_S[j] += weight_Exit[j][i] * sortie_C[i];
 
-            double sortie_C1 = 1 / (1 + Math.pow(Math.E, -potentiel_C1));
-            double sortie_C2 = 1 / (1 + Math.pow(Math.E, -potentiel_C2));
-            System.out.println("sortie_C1:" + sortie_C1);
-            System.out.println("sortie_C2:" + sortie_C2);
-
-            double tab_sortie_HiddenLayer[] = {1, sortie_C1, sortie_C2}; //Rajout statique du 0 pour que ca match avec calcul potentiel 1.b pour la premier boucle(voir pdf prof)
-            //1.b) Calcul des potentiels ps et sories zs de chaque neurone de la couche de sortie (fonction logistique comme fonction d'activation)
-
-            double potentiel_S1 = 0;
-            double potentiel_S2 = 0;
-            double potentiel_S3 = 0;
-
-            for (int i = 0; i < S1_Weights.length; i++) {
-                potentiel_S1 = potentiel_S1 + (S1_Weights[i] * tab_sortie_HiddenLayer[i]);
-                potentiel_S2 = potentiel_S2 + (S2_Weights[i] * tab_sortie_HiddenLayer[i]);
-                potentiel_S3 = potentiel_S3 + (S3_Weights[i] * tab_sortie_HiddenLayer[i]);
+                }
+                System.out.println("potentiel_S" + j + " " + potentiel_S[j]);
+                sortie_S[j] = 1 / (1 + Math.pow(Math.E, -potentiel_S[j]));
+                System.out.println("sortie_S" + j + " " + sortie_S[j]);
             }
-            System.out.println("potentiel_S1:" + potentiel_S1);
-            System.out.println("potentiel_S2:" + potentiel_S2);
-            System.out.println("potentiel_S3:" + potentiel_S3);
-
-
-            double sortie_S1 = 1 / (1 + Math.pow(Math.E, -potentiel_S1));
-            double sortie_S2 = 1 / (1 + Math.pow(Math.E, -potentiel_S2));
-            double sortie_S3 = 1 / (1 + Math.pow(Math.E, -potentiel_S3));
-            double tab_sortie_OutputLayer[] = {sortie_S1, sortie_S2, sortie_S3};
-            System.out.println("sortie_S1:" + sortie_S1);
-            System.out.println("sortie_S2:" + sortie_S2);
-            System.out.println("sortie_S3:" + sortie_S3);
-
-
             //2 Calcul de l'erreur et retropropagation de l'erreur a travers le reseau
             //Calcul de l'erreur quadratique moyenne
-            double AVG_ERROR = 0;
-            for (int i = 0; i < Out.length; i++) {
-                AVG_ERROR = AVG_ERROR + Math.pow(Out[i] - tab_sortie_OutputLayer[i], 2);
-            }
-            AVG_ERROR = AVG_ERROR / 2;
-            System.out.println("AVG_ERROR:" + AVG_ERROR); //Vaut 0.226
+                AVG_ERROR =0.0;
+             for (int i = 0; i < exit.length; i++) {
+                 AVG_ERROR = AVG_ERROR + Math.pow(exit[i][numLigneEntry] - sortie_S[i], 2);
+             }
+             AVG_ERROR = AVG_ERROR / 2;
+             System.out.println("AVG_ERROR:" + AVG_ERROR); //Vaut 0.226
+             if(AVG_ERROR < erreur_Quad_Thread)
+                 break;
 
-            //2.a  Calcul des signaux d erreur de chaque neurone de la couche de sortie
-            if (AVG_ERROR > 0.200) {
+            ////2.a  Calcul des signaux d erreur de chaque neurone de la couche de sortie
+             double[] signal_erreur_S = new double[sortie_S.length];
+             for (int i = 0; i < sortie_S.length ; i++) {
+                 signal_erreur_S[i] = ( exit[i][numLigneEntry]-sortie_S[i]) * sortie_S[i] *(1-sortie_S[i]) ;
+                 System.out.println("signal_erreur_S["+i+"]"+signal_erreur_S[i]);
+             }
 
-                double signal_erreur_S1 = (Out[0] - tab_sortie_OutputLayer[0]) * tab_sortie_OutputLayer[0] * (1 - tab_sortie_OutputLayer[0]);
-                double signal_erreur_S2 = (Out[1] - tab_sortie_OutputLayer[1]) * tab_sortie_OutputLayer[1] * (1 - tab_sortie_OutputLayer[1]);
-                double signal_erreur_S3 = (Out[2] - tab_sortie_OutputLayer[2]) * tab_sortie_OutputLayer[2] * (1 - tab_sortie_OutputLayer[2]);
-                System.out.println("signal_erreur_S1:" + signal_erreur_S1);
-                System.out.println("signal_erreur_S2:" + signal_erreur_S2);
-                System.out.println("signal_erreur_S3:" + signal_erreur_S3);
+             //2.b  Calcul des signaux d erreur de chaque neurone de la couche caché
+             double signal_erreur_C[] = new  double[sortie_C.length] ;
+             for (int i = 0; i < sortie_C.length; i++) {
+                 signal_erreur_C[i] =sortie_C[i]*(1-sortie_C[i]) ;
+                 System.out.println("signal_erreur_C:"+i+" " + signal_erreur_C[i]);
+             }
+            double signal_erreur_c_cumule[] = new  double[signal_erreur_C.length] ;
+             for (int i = 0; i < signal_erreur_C.length; i++) {  // par sigal erreur caché
+                 for (int j = 0; j < signal_erreur_S.length; j++) { // par signal erreur sortie
 
-                //2.b  Calcul des signaux d erreur de chaque neurone de la couche caché
-                double signal_erreur_C1 = sortie_C1 * (1 - sortie_C1);
-                double signal_erreur_C2 = sortie_C2 * (1 - sortie_C2);
-                System.out.println("signal_erreur_C1:" + signal_erreur_C1);
-                System.out.println("signal_erreur_C2:" + signal_erreur_C2);
-                //2.b.. Cumulé avec des les signaux d'erreur de la couche de sortie ponderé par les poids synaptiques
-                double signal_erreur_c1_cumule = signal_erreur_C1 * (signal_erreur_S1 * S1_Weights[1] + signal_erreur_S2 * S2_Weights[1] + signal_erreur_S3 * S3_Weights[1]);
-                double signal_erreur_c2_cumule = signal_erreur_C2 * (signal_erreur_S1 * S1_Weights[2] + signal_erreur_S2 * S2_Weights[2] + signal_erreur_S3 * S3_Weights[2]);
-                System.out.println("signal_erreur_c1_cumule" + signal_erreur_c1_cumule);
-                System.out.println("signal_erreur_c2_cumule" + signal_erreur_c2_cumule);
-                // 3
-                // 3.a correction des poids synaptiques de la couche de sortie
 
-                S1_Weights[0] += learning_Rate * signal_erreur_S1 * 1;
-                S1_Weights[1] += learning_Rate * signal_erreur_S1 * sortie_C1;
-                S1_Weights[2] += learning_Rate * signal_erreur_S1 * sortie_C2;
-                System.out.println("S1_Weights" + S1_Weights[0] + "/ " + S1_Weights[1] + "/ " + S1_Weights[2]);
-                S2_Weights[0] += learning_Rate * signal_erreur_S2 * 1;
-                S2_Weights[1] += learning_Rate * signal_erreur_S2 * sortie_C1;
-                S2_Weights[2] += learning_Rate * signal_erreur_S2 * sortie_C2;
-                System.out.println("S2_Weights" + S2_Weights[0] + "/ " + S2_Weights[1] + "/ " + S2_Weights[2]);
-                S3_Weights[0] += learning_Rate * signal_erreur_S3 * 1;   ///  S3_Weights[0] = S3_Weights[0] + ...
-                S3_Weights[1] += learning_Rate * signal_erreur_S3 * sortie_C1;
-                S3_Weights[2] += learning_Rate * signal_erreur_S3 * sortie_C2;
-                System.out.println("S3_Weights" + S3_Weights[0] + "/ " + S3_Weights[1] + "/ " + S3_Weights[2]);
+                        signal_erreur_c_cumule[i] += signal_erreur_C[i] *signal_erreur_S[j] * weight_Exit[j][i] ;
+                     //    System.out.println("cal"+signal_erreur_C[i]+" * "+ signal_erreur_S[j]+" * "+weight_Exit[j][i] );
 
-                // 3.b correction des poids de la couche cachée
-                for (int i = 0; i < C1_Weights.length; i++) {
-                    C1_Weights[i] += learning_Rate * signal_erreur_c1_cumule * Entry[i];
-                    C2_Weights[i] += learning_Rate * signal_erreur_c2_cumule * Entry[i];
-                }
-                System.out.println("C1_Weights " + C1_Weights[0] + "/ " + C1_Weights[1] + "/ " + C1_Weights[2] + "/ " + C1_Weights[3]);
-                System.out.println("C2_Weights " + C2_Weights[0] + "/ " + C2_Weights[1] + "/ " + C2_Weights[2] + "/ " + C2_Weights[3]);
-            }
-            System.out.println("------------------------------------------");
+                 }
 
-        }
+                 System.out.println("signal_erreur_c1_cumule [" +i+"] "+signal_erreur_c_cumule[i] );
+             }
+             // 3
+             // 3.a correction des poids synaptiques de la couche de sortie
+
+                 for (int j = 0; j < sortie_C.length; j++) {
+                     System.out.println("");
+                     for (int i = 0; i < weight_Exit.length; i++) {
+                         weight_Exit[j][i] += learning_Rate *signal_erreur_S[j] *sortie_C[i] ;
+                         System.out.print(" S"+j+"weights["+i+"] "+weight_Exit[j][i]);
+                     }
+                 }
+             System.out.println(" ");
+
+             // 3.b correction des poids de la couche cachée
+             for (int i = 0; i < weight_Cache.length; i++) {
+                 for (int j = 0; j < signal_erreur_c_cumule.length+1 ; j++) {
+                     weight_Cache[i][j] += learning_Rate *signal_erreur_c_cumule[i+1]*entry[j][numLigneEntry];
+                     //System.out.println("cal :"+ weight_Cache[i][j] +"+"+ learning_Rate+"*"+ signal_erreur_c_cumule[i+1]+"*"+entry[j][numLigneEntry]);
+                     System.out.print(" weight_Cache["+i+"]["+j+"] "+weight_Cache[i][j]);
+                 }
+                 System.out.println(" ");
+             }
+
+            // condition de reitérature
+            currentCompleteIteration++;
+
+        } while (currentCompleteIteration < nb_inte_max); // true si
+        System.out.println("fin de l algo ");
+
 
     }
-
-
-
-
-    public int getNbr_Of_Neurones_DummyLayer() {
-        return Nbr_Of_Neurones_DummyLayer;
+    /////////////////////////////////////setter + getter ///////////////////////////////////////////////////////
+    public int getNb_Entry() {
+        return nb_Entry;
     }
 
-    public void setNbr_Of_Neurones_DummyLayer(int nbr_Of_Neurones_DummyLayer) {
-        Nbr_Of_Neurones_DummyLayer = nbr_Of_Neurones_DummyLayer;
+    public void setNb_Entry(int nb_Entry) {
+        this.nb_Entry = nb_Entry;
     }
 
-    public int getNbr_Of_Neurones_HiddenLayer() {
-        return Nbr_Of_Neurones_HiddenLayer;
+    public int getNb_Peceptrons_Cahe() {
+        return nb_Peceptrons_Cahe;
     }
 
-    public void setNbr_Of_Neurones_HiddenLayer(int nbr_Of_Neurones_HiddenLayer) {
-        Nbr_Of_Neurones_HiddenLayer = nbr_Of_Neurones_HiddenLayer;
+    public void setNb_Peceptrons_Cahe(int nb_Peceptrons_Cahe) {
+        this.nb_Peceptrons_Cahe = nb_Peceptrons_Cahe;
     }
 
-    public int getNbr_Of_Neurones_OutputLayer() {
-        return Nbr_Of_Neurones_OutputLayer;
+    public int getNb_Peceptrons_Sortie() {
+        return nb_Peceptrons_Sortie;
     }
 
-    public void setNbr_Of_Neurones_OutputLayer(int nbr_Of_Neurones_OutputLayer) {
-        Nbr_Of_Neurones_OutputLayer = nbr_Of_Neurones_OutputLayer;
+    public void setNb_Peceptrons_Sortie(int nb_Peceptrons_Sortie) {
+        this.nb_Peceptrons_Sortie = nb_Peceptrons_Sortie;
     }
 
+    public double getLearning_Rate() {
+        return learning_Rate;
+    }
 
+    public void setLearning_Rate(double learning_Rate) {
+        this.learning_Rate = learning_Rate;
+    }
+
+    public int getNb_inte_max() {
+        return nb_inte_max;
+    }
+
+    public void setNb_inte_max(int nb_inte_max) {
+        this.nb_inte_max = nb_inte_max;
+    }
+
+    public double getErreur_Quad_Thread() {
+        return erreur_Quad_Thread;
+    }
+
+    public void setErreur_Quad_Thread(double erreur_Quad_Thread) {
+        this.erreur_Quad_Thread = erreur_Quad_Thread;
+    }
+
+    public double[][] getEntry() {
+        return entry;
+    }
+
+    public void setEntry(double[][] entry) {
+        this.entry = entry;
+    }
+
+    public double[][] getExit() {
+        return exit;
+    }
+
+    public void setExit(double[][] exit) {
+        this.exit = exit;
+    }
+
+    public double[][] getWeight_Cache() {
+        return weight_Cache;
+    }
+
+    public void setWeight_Cache(double[][] weight_Cache) {
+        this.weight_Cache = weight_Cache;
+    }
+
+    public double[][] getWeight_Exit() {
+        return weight_Exit;
+    }
+
+    public void setWeight_Exit(double[][] weight_Exit) {
+        this.weight_Exit = weight_Exit;
+    }
 }

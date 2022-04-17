@@ -65,6 +65,9 @@ public class Main {
                 case 16:
                     Essai16();
                     break;
+                case 17:
+                    Essai17();
+                    break;
                 case 20:
 
 
@@ -99,7 +102,8 @@ public class Main {
         System.out.println("13. Perceptron Monocouche 3 classes DG-SeuilErrQuad");
         System.out.println("14. Perceptron Monocouche 4 classes Adal-SeuilNombreErreur");
         System.out.println("15. Perceptron Monocouche 4 classes Adal-SeuilErrQuad");
-        System.out.println("16. Perceptron Multicouche Test3-2-3");
+        System.out.println("16. Perceptron Multicouche static Test3-2-3");
+        System.out.println("17. Perceptron Multicouche non static Test3-2-3");
         System.out.print("choix :");
         Scanner sc = new Scanner(System.in);
         choix = sc.nextInt();
@@ -256,8 +260,19 @@ public class Main {
 
     private static void Essai16() throws IOException {
         System.out.println("16. Perceptron Multicouche XOR (2 classes)");
-        PerceptronMulticouches p = new PerceptronMulticouches(3, 2, 3);
+        PerceptronMulticouchesStatic p = new PerceptronMulticouchesStatic(3, 2, 3);
         p.Perceptron();
+
+    }
+
+    private static void Essai17() throws IOException {
+        System.out.println("17. Perceptron Multicouche XOR (2 classes)");
+        PerceptronMulticouches p = new PerceptronMulticouches(3,2,3,1.0,100,0.2);
+         double entr [][]= {{1},{0.9},{0.1},{0.9} } ;
+         double exit [][]= {{0.1},{0.9},{0.9} } ;
+         double w_Cache [][]= {{0,0.1,0.15,0.05} , {0,0.12,0.18,0.08} } ;
+         double w_Sort [][] = {{0,0.1,0.14} , {0,0.125,0.21} , {0,0.13,0.07}  } ;
+        p.Peceptron( entr ,exit ,w_Cache ,w_Sort);
 
     }
 
