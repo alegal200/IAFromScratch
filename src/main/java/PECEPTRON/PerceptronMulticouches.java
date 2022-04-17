@@ -59,7 +59,7 @@ public class PerceptronMulticouches {
             System.out.println("sortie_C1:" + sortie_C1);
             System.out.println("sortie_C2:" + sortie_C2);
 
-            double tab_sortie_HiddenLayer[] = {1, sortie_C1, sortie_C2}; //Rajout statique du 0 pour que ca match avec calcul potentiel 1.b pour la premier boucle(voir pdf prof)
+            double tab_sortie_HiddenLayer[] = {1, sortie_C1, sortie_C2}; //Rajout statique du 0 pour que ca match avec calcul potentiel 1.b pour la prer bouemicle(voir pdf prof)
             //1.b) Calcul des potentiels ps et sories zs de chaque neurone de la couche de sortie (fonction logistique comme fonction d'activation)
 
             double potentiel_S1 = 0;

@@ -39,6 +39,18 @@ public class PerceptronDG {
         Arrays.fill(getD_Weights(), 0);
     }
 
+    public PerceptronDG(double[] weights,double learning_Rate, int MAX_ITERATION) {
+        setWeights(new double[weights.length]);
+        setWeights(Arrays.copyOf(weights, weights.length));
+        setOutput_Threshold(0.0);
+        setLearning_Rate(learning_Rate);
+        setNumber_Error_Threshold(0);
+        setQuad_Error_Value_Threshold(0.125001);
+        setMAX_ITERATION(MAX_ITERATION);
+        setD_Weights(new double[weights.length]);
+        setD_Weights(Arrays.copyOf(weights, weights.length));
+    }
+
     public PerceptronDG(double learning_Rate, int MAX_ITERATION,double Quad_Error_Value_Threshold) {
         setWeights(new double[3]);
         Arrays.fill(getWeights(), 0);
@@ -46,6 +58,18 @@ public class PerceptronDG {
         setLearning_Rate(learning_Rate);
         setNumber_Error_Threshold(0);
         setQuad_Error_Value_Threshold(Quad_Error_Value_Threshold);
+        setMAX_ITERATION(MAX_ITERATION);
+        setD_Weights(new double[3]);
+        Arrays.fill(getD_Weights(), 0);
+    }
+
+    public PerceptronDG(double learning_Rate, int MAX_ITERATION,int Number_Error_Threshold ) {
+        setWeights(new double[3]);
+        Arrays.fill(getWeights(), 0);
+        setOutput_Threshold(0.0);
+        setLearning_Rate(learning_Rate);
+        setNumber_Error_Threshold(Number_Error_Threshold);
+        setQuad_Error_Value_Threshold(0.125001);
         setMAX_ITERATION(MAX_ITERATION);
         setD_Weights(new double[3]);
         Arrays.fill(getD_Weights(), 0);
@@ -219,7 +243,7 @@ public class PerceptronDG {
             System.out.println("  Nombre d'erreur pour l'iterationComplete " + CurrentCompleteIteration + " :" + NBR_ERRORS);
 
             CurrentCompleteIteration++;
-        } while (NBR_ERRORS > 0 && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
+        } while (NBR_ERRORS > getNumber_Error_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
 
         return getWeights();
     }

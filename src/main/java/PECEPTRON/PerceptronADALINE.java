@@ -31,6 +31,16 @@ public class PerceptronADALINE {
         setMAX_ITERATION(MAX_ITERATION);
     }
 
+    public PerceptronADALINE(double[] weights,double learning_Rate, int MAX_ITERATION) {
+        setWeights(new double[weights.length]);
+        setWeights(Arrays.copyOf(weights, weights.length));
+        setOutput_Threshold(0.0);
+        setLearning_Rate(learning_Rate);
+        setNumber_Error_Threshold(0);
+        setQuad_Error_Value_Threshold(0.1251);
+        setMAX_ITERATION(MAX_ITERATION);
+    }
+
 
     public PerceptronADALINE(double learning_Rate, int MAX_ITERATION, double Quad_Error_Value_Threshold) {
         setWeights(new double[3]);
@@ -39,6 +49,16 @@ public class PerceptronADALINE {
         setLearning_Rate(learning_Rate);
         setNumber_Error_Threshold(0);
         setQuad_Error_Value_Threshold(Quad_Error_Value_Threshold);
+        setMAX_ITERATION(MAX_ITERATION);
+    }
+
+    public PerceptronADALINE(double learning_Rate, int MAX_ITERATION, int Number_Error_Threshold ) {
+        setWeights(new double[3]);
+        Arrays.fill(getWeights(), 0);
+        setOutput_Threshold(0.0);
+        setLearning_Rate(learning_Rate);
+        setNumber_Error_Threshold(Number_Error_Threshold);
+        setQuad_Error_Value_Threshold(0);
         setMAX_ITERATION(MAX_ITERATION);
     }
 
