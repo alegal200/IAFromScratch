@@ -150,7 +150,7 @@ public class Main {
 
     private static void Essai4() throws IOException {
         System.out.println("4. Perceptron ADALINE classif. linea. sep.");
-        PerceptronADALINE p = new PerceptronADALINE(0.012, 1000);
+        PerceptronADALINE p = new PerceptronADALINE(0.012, 94);
         double[] weight = p.Classification(CSVReader.getInput("table_2_9.csv"), CSVReader.getOutput("table_2_9.csv"));
         Chart chart = new Chart("Graphique", "table_2_9.csv", weight);
         chart.pack();
