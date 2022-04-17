@@ -45,12 +45,13 @@ public class PerceptronMulticouches {
              for (int numLigneEntry = 0; numLigneEntry < entry[0].length; numLigneEntry++) {
 
 
-                 System.out.println("tour n: " + currentCompleteIteration);
+                 System.out.println("************************************tour n: " + currentCompleteIteration+"**************");
                  double potentiel_C[] = new double[nb_Peceptrons_Cahe];
                  double sortie_C[] = new double[nb_Peceptrons_Cahe + 1];
                  sortie_C[0] = 1;
                  //1.Propagation des données d'entrée (x1, x2, ..., xE) à travers le réseau :
                  //1.a) Calcul des potentiels kc et sortie yc de chaque neurone de la couche caché
+                 sortie_C[0]=1;
                  for (int j = 0; j <= potentiel_C.length - 1; j++) {
                      for (int i = 0; i <= entry.length - 1; i++) {
                          potentiel_C[j] += weight_Cache[j][i] * entry[i][numLigneEntry];//
@@ -59,12 +60,13 @@ public class PerceptronMulticouches {
                      sortie_C[j + 1] = 1 / (1 + Math.pow(Math.E, -potentiel_C[j]));
                      System.out.println("sortie_c" + j + " " + sortie_C[j]);
                  }
+
                  ////1.b) Calcul des potentiels ps et sories zs de chaque neurone de la couche de sortie (fonction logistique comme fonction d'activation)
                  double potentiel_S[] = new double[nb_Peceptrons_Sortie];
                  double sortie_S[] = new double[nb_Peceptrons_Sortie];
                  for (int j = 0; j < potentiel_S.length; j++) {
 
-                     for (int i = 0; i < sortie_C.length; i++) {
+                     for (int i = 0; i < weight_Exit.length; i++) {
                          potentiel_S[j] += weight_Exit[j][i] * sortie_C[i];
 
                      }
@@ -96,10 +98,10 @@ public class PerceptronMulticouches {
                      signal_erreur_C[i] = sortie_C[i] * (1 - sortie_C[i]);
                      System.out.println("signal_erreur_C:" + i + " " + signal_erreur_C[i]);
                  }
+                 ///////
                  double signal_erreur_c_cumule[] = new double[signal_erreur_C.length];
                  for (int i = 0; i < signal_erreur_C.length; i++) {  // par sigal erreur caché
                      for (int j = 0; j < signal_erreur_S.length; j++) { // par signal erreur sortie
-
 
                          signal_erreur_c_cumule[i] += signal_erreur_C[i] * signal_erreur_S[j] * weight_Exit[j][i];
                          //    System.out.println("cal"+signal_erreur_C[i]+" * "+ signal_erreur_S[j]+" * "+weight_Exit[j][i] );
@@ -112,8 +114,8 @@ public class PerceptronMulticouches {
                  // 3.a correction des poids synaptiques de la couche de sortie
 
 
-                 for (int j = 0; j < sortie_C.length; j++) {
-                     for (int i = 0; i < sortie_C.length; i++) { //todo mauvaise borne
+                 for (int j = 0; j < signal_erreur_S.length; j++) {
+                     for (int i = 0; i < sortie_C.length; i++) {
 
                         System.out.println("weight_Exit.length"+weight_Exit.length+" sortie_C.length"+sortie_C.length);
                          weight_Exit[j][i] += learning_Rate * signal_erreur_S[j] * sortie_C[i];
@@ -124,17 +126,17 @@ public class PerceptronMulticouches {
                  System.out.println(" ");
 
                  // 3.b correction des poids de la couche cachée
-                 for (int i = 0; i < weight_Cache.length ; i++) {
-                     for (int j = 0; j < signal_erreur_c_cumule.length + 1; j++) {// todo mauvaises bornes
-                         System.out.println("weight_Cache.length "+weight_Cache.length +" signal_erreur_c_cumule.length "+signal_erreur_c_cumule.length);
+                 for (int i = 0; i < signal_erreur_c_cumule.length- 1; i++) {//2
+                     for (int j = 0; j < weight_Cache[0].length ; j++) {// todo a modifier prob entry //4
+                        // System.out.println("weight_Cache.length "+weight_Cache[0].length +" signal_erreur_c_cumule.length "+signal_erreur_c_cumule.length);
+                         System.out.println("cal :"+ weight_Cache[i][j] +"+"+ learning_Rate+"*"+ signal_erreur_c_cumule[i+1]+"*"+entry[j][numLigneEntry]);
+
                          weight_Cache[i][j] += learning_Rate * signal_erreur_c_cumule[i + 1] * entry[j][numLigneEntry];
-                         //System.out.println("cal :"+ weight_Cache[i][j] +"+"+ learning_Rate+"*"+ signal_erreur_c_cumule[i+1]+"*"+entry[j][numLigneEntry]);
                          System.out.print(" weight_Cache[" + i + "][" + j + "] " + weight_Cache[i][j]);
                      }
                      System.out.println(" ");
                  }
 
-                 // condition de reitérature
                  currentCompleteIteration++;
              }
              if (AVG_ERROR < erreur_Quad_Thread)

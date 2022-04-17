@@ -271,7 +271,7 @@ public class Main {
 
     private static void Essai17() throws IOException {
         System.out.println("17. Perceptron Multicouche test ");
-        PerceptronMulticouches p = new PerceptronMulticouches(3,2,3,1.0,1,0.2);
+        PerceptronMulticouches p = new PerceptronMulticouches(3,2,3,1.0,100,0.2);
          double entr [][]= {{1},{0.9},{0.1},{0.9} } ;
          double exit [][]= {{0.1},{0.9},{0.9} } ;
          double w_Cache [][]= {{0,0.1,0.15,0.05} , {0,0.12,0.18,0.08} } ;
