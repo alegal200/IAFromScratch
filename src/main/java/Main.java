@@ -281,12 +281,12 @@ public class Main {
     }
     private static void Essai18() throws IOException {
         System.out.println("18. Perceptron Multicouche XOR (2 classes)");
-        PerceptronMulticouches p = new PerceptronMulticouches(2,2,1,0.8,2000,0.001);
+        PerceptronMulticouches p = new PerceptronMulticouches(2,2,1,0.8,20000,0.001);
         double entr [][]= {{0,0,1,1},{0,1,0,1} } ;
         double exit [][]= {{0,1,1,0} } ;
-        double w_Cache [][]= {{0,1,2,3} , {0,1,2,3} } ;
-        double w_Sort [][] = {{1,2,3}   } ;
-        p.Peceptron( entr ,exit ,w_Cache ,w_Sort);
+        double w_Cache [][]= {{0,1,0,-1} , {0,1,0,-1} } ;
+        double w_Sort [][] = {{1,0,0}   } ;
+        p.PeceptronFullBack( entr ,exit ,w_Cache ,w_Sort);
 
     }
 
