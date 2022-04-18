@@ -188,8 +188,8 @@ public class Chart extends ApplicationFrame {
                     bigX_temp = Double.parseDouble(token[0]);
                     smallX_temp = Double.parseDouble(token[0]);
                 }
-
                 xyseries.add(Double.parseDouble(token[0]), Double.parseDouble(token[1]));
+
 
                 //On cherche le plus petit et plus grand x
                 if (Double.parseDouble(token[0]) < smallX_temp) {

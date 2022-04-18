@@ -89,6 +89,18 @@ public class PerceptronDG {
         setD_Weights(Arrays.copyOf(weights, weights.length));
     }
 
+    public PerceptronDG(double[] weights,double learning_Rate, int MAX_ITERATION,int Number_Error_Threshold) {
+        setWeights(new double[weights.length]);
+        setWeights(Arrays.copyOf(weights, weights.length));
+        setOutput_Threshold(0.0);
+        setLearning_Rate(learning_Rate);
+        setNumber_Error_Threshold(Number_Error_Threshold);
+        setQuad_Error_Value_Threshold(0);
+        setMAX_ITERATION(MAX_ITERATION);
+        setD_Weights(new double[weights.length]);
+        setD_Weights(Arrays.copyOf(weights, weights.length));
+    }
+
     public PerceptronDG(double[] weights, double t, double learning_Rate, double Quad_Error_Value_Threshold, int MAX_ITERATION) {
         setWeights(new double[weights.length]);
         setWeights(Arrays.copyOf(weights, weights.length));
@@ -244,6 +256,75 @@ public class PerceptronDG {
 
             CurrentCompleteIteration++;
         } while (NBR_ERRORS > getNumber_Error_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
+
+        return getWeights();
+    }
+
+    public double[] Regression(double[][] Input, double[] OutputExpected) {
+
+        int CurrentCompleteIteration = 1;
+        double AVG_ERROR = 0;
+
+        do {
+            System.out.println("CurrentCompleteIteration : " + CurrentCompleteIteration); //Affiche l'iterationComplete actuel
+
+            AVG_ERROR = 0; //Reinitialisation de l'erreur quadratique moyenne pour l'iterationComplete
+            Arrays.fill(getD_Weights(), 0); //Réinitialise d_Weights pour l'iterationComplete
+            double[] Output = new double[Input.length]; //Plus haute porté car necessaire au calcul de l'erreur moyenne
+
+            for (int k = 0; k < Input.length; k++) {
+                double Potential = 0;
+                int s;
+
+                //Calcul du potentiel pour l'iteration k
+                for (int i = 0; i < Input[k].length; i++) {
+                    Potential = Potential + (getWeights()[i] * Input[k][i]);
+                }
+
+
+                //Calcul de la sortie du neurone
+                Output[k] = Potential;
+                System.out.println("  k" + k + " Sortie:" + Output[k]);
+
+                //Calcul des s du neurone en fonction du seuil
+                if (Output[k] >= getOutput_Threshold()) {
+                    s = 1;
+                } else {
+                    s = -1;
+                }
+                System.out.println("  k" + k + " Valeur s:" + s);
+
+                //Calcul de l'erreur commise par le neuronne
+                double Error = OutputExpected[k] - Output[k];
+                System.out.println("  k" + k + " ErreurCommise:" + Error);
+
+                //Si le neuronne commet une erreur, modification des d_poids
+                if (Error != 0) {
+                    for (int i = 0; i < Input[k].length; i++) {
+                        getD_Weights()[i] = getD_Weights()[i] + getLearning_Rate() * (Error) * Input[k][i];
+                    }
+                    System.out.println("  k" + k + " Nouveau D_Weight:" + Arrays.toString(getD_Weights()));
+                }
+
+            }
+
+            //Modification des poids synaptiques a chaque iterationComplete
+            for (int i = 0; i < getWeights().length; i++) {
+                getWeights()[i] = getWeights()[i] + getD_Weights()[i];
+            }
+            System.out.println("  Fin iteration" + CurrentCompleteIteration + " NouveauPoid Pour tour suivant:" + Arrays.toString(getWeights()));
+
+            //Calcul de l'erreur quadratique moyenne
+            for (int i = 0; i < OutputExpected.length; i++) {
+                AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i] - getWeights()[0] - (getWeights()[1]* Input[i][1]), 2);
+            }
+            AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
+            System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
+
+            CurrentCompleteIteration++;
+
+        } while (AVG_ERROR > getQuad_Error_Value_Threshold() && CurrentCompleteIteration < getMAX_ITERATION()); //Arret si Erreur quad moy inferieur a un certain seuil ou si on depasse le nbr max d'iteration
+
 
         return getWeights();
     }

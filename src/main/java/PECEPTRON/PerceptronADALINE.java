@@ -230,6 +230,84 @@ public class PerceptronADALINE {
         return getWeights();
     }
 
+    public double[] Regression(double[][] Input, double[] OutputExpected) {
+        int CurrentCompleteIteration = 1;
+        double AVG_ERROR = 0;
+        int NBR_ERRORS = 0;
+
+
+        do {
+            System.out.println("CurrentCompleteIteration : " + CurrentCompleteIteration); //Affiche l'iterationComplete actuel
+            AVG_ERROR = 0; //Reinitialisation de l'erreur quadratique moyenne pour l'iterationComplete
+            NBR_ERRORS = 0; //Réinitialiser pour chaque itérationComplete (1 itérationComplete = k itération)
+            double[] Output = new double[Input.length]; //Plus haute porté car necessaire au calcul de l'erreur moyenne
+
+            for (int k = 0; k < Input.length; k++) {
+                double Potential = 0;
+                int s;
+
+                //Calcul du potentiel pour l'iteration k
+                for (int i = 0; i < Input[k].length; i++) {
+                    Potential = Potential + (getWeights()[i] * Input[k][i]);
+                }
+
+                //Calcul de la sortie du neurone
+                Output[k] = Potential;
+                System.out.println("  k" + k + " Sortie:" + Output[k]);
+
+                //Calcul des s du neurone en fonction du seuil
+                if (Output[k] >= getOutput_Threshold()) {
+                    s = 1;
+                } else {
+                    s = -1;
+                }
+                System.out.println("  k" + k + " Valeur s:" + s);
+
+                //Calcul de l'erreur commise par le neuronne
+                double Error = OutputExpected[k] - Output[k];
+                System.out.println("  k" + k + " ErreurCommise:" + Error);
+
+
+                if (s==OutputExpected[k]) {
+
+                } else {
+                    NBR_ERRORS++;
+                }
+
+
+                //Si le neuronne commet une erreur, modification des poids + incrementation du nbr d'erreur pour une iterationComplete
+                if (Error > 0.00001 || Error < -0.00001) {
+                    for (int i = 0; i < Input[k].length; i++) {
+                        getWeights()[i] = getWeights()[i] + getLearning_Rate() * (Error) * Input[k][i];
+                    }
+                    System.out.println("  k" + k + " NouveauPoid:" + Arrays.toString(getWeights()));
+                }
+
+            }
+
+            //Calcul des nouveaux output pour l'erreur quadratique moyenne avec les dernier poids synaptiques
+            double[] NewOutput_ErrQuad = new double[Input.length];
+            for (int k = 0; k < Input.length; k++) {
+                for (int i = 0; i < Input[k].length; i++) {
+                    NewOutput_ErrQuad[k] = NewOutput_ErrQuad[k] + (getWeights()[i] * Input[k][i]);
+                }
+            }
+
+            //Calcul de l'erreur quadratique moyenne
+            for (int i = 0; i < OutputExpected.length; i++) {
+                AVG_ERROR = AVG_ERROR + Math.pow(OutputExpected[i] - getWeights()[0] - (getWeights()[1]* Input[i][1]), 2);
+            }
+            AVG_ERROR = AVG_ERROR / (2 * (OutputExpected.length));
+            //AVG_ERROR = AVG_ERROR / 1;
+
+            System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
+
+            CurrentCompleteIteration++;
+        } while (AVG_ERROR > getQuad_Error_Value_Threshold() && CurrentCompleteIteration < getMAX_ITERATION());
+
+        return getWeights();
+    }
+
 
 
 

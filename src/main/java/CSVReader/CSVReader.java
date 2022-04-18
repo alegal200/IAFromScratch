@@ -64,6 +64,53 @@ public class CSVReader {
         return Input;
     }
 
+    public static double[][] getInputRegression(String table) throws IOException {
+        //Delimiter
+        String line = "";
+        final String delimiter = ",";
+
+        //Initilisation des variables relatives au fichier
+        String filePath = System.getProperty("user.dir") + "\\src\\main\\java\\CSVReader\\CSV\\" + table;
+        FileReader fileReader = new FileReader(filePath);
+        BufferedReader reader = new BufferedReader(fileReader);
+
+        //Calcul de variables statiques grace au fichier
+        long number_of_examp = Files.lines(Paths.get(filePath)).count(); // nombre d'exemples
+        //Calcul du nbr d'element par ligne du fichier
+        reader.mark(50);
+        String ligne = reader.readLine();
+        String[] tok = ligne.split(delimiter);
+        reader.reset();
+        int number_of_entry = 2;
+
+
+        //Variables qui serra retourné
+        double[][] Input = new double[(int) number_of_examp][number_of_entry];
+
+
+        try {
+
+            int currLine = 0;
+            while ((line = reader.readLine()) != null) {
+                String[] token = line.split(delimiter);
+
+                Input[currLine][0] = Double.parseDouble(token[0]);
+                Input[currLine][0] = Double.parseDouble(token[1]);
+
+                currLine++;
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(Arrays.deepToString(Input));
+        return Input;
+
+
+    }
+
 
     public static double[][] getInput(String table, int nbr_of_classes) throws IOException {
         //Delimiter
@@ -115,7 +162,6 @@ public class CSVReader {
         System.out.println(Arrays.deepToString(Input));
         return Input;
     }
-
 
 
     public static double[] getOutput(String table) throws IOException {
@@ -211,7 +257,7 @@ public class CSVReader {
             while ((line = reader.readLine()) != null) {
 
                 String[] token = line.split(delimiter);
-                for (int j = (token.length-nbr_of_classes) ,i=0 ; j < token.length && i<nbr_of_classes; j++,i++) //On rempli a partir des output
+                for (int j = (token.length - nbr_of_classes), i = 0; j < token.length && i < nbr_of_classes; j++, i++) //On rempli a partir des output
                 {
                     Output[currLine][i] = Double.parseDouble(token[j]);
                 }
@@ -231,14 +277,12 @@ public class CSVReader {
         //Variable qui serra retourné
         double[] Out = new double[Output.length];
 
-        for(int i=0 ; i< Out.length ; i++)
-        {
-            Out[i]= Output[i][ClassIndex-1]; //Si on entre 1 on recoit l'item 0
+        for (int i = 0; i < Out.length; i++) {
+            Out[i] = Output[i][ClassIndex - 1]; //Si on entre 1 on recoit l'item 0
         }
 
         return Out;
     }
-
 
 
 }
