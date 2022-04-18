@@ -281,7 +281,7 @@ public class PerceptronMulticouches {
             //Calcul de l'erreur quadratique moyenne
             for (int numL = 0; numL < exit[0].length; numL++) {
                 for (int i = 0; i < exit.length; i++) {
-                   
+
                     AVG_ERROR += Math.pow(exit[i][numL] - tmp_sortie_S[numL][i], 2);
                 }
             }
