@@ -65,10 +65,16 @@ public class Main {
                 case 16:
                     Essai16();
                     break;
-                case 20:
-                    Essai20();
+                case 17:
+                    Essai17();
                     break;
+                case 18:
+                    Essai18();
+                    break;
+                case 20:
 
+
+                    break;
                 default:
                     System.out.println("Choix incorrect");
                     break;
@@ -99,8 +105,9 @@ public class Main {
         System.out.println("13. Perceptron Monocouche 3 classes DG-SeuilErrQuad");
         System.out.println("14. Perceptron Monocouche 4 classes Adal-SeuilNombreErreur");
         System.out.println("15. Perceptron Monocouche 4 classes Adal-SeuilErrQuad");
-        System.out.println("16. Perceptron Multicouche Test3-2-3");
-        System.out.println("20. Perceptron Descente du Gradiant classif. linea. sep. table hearth");
+        System.out.println("16. Perceptron Multicouche static Test3-2-3");
+        System.out.println("17. Perceptron Multicouche  Test3-2-3");
+        System.out.println("18. Perceptron Multicouche Test2-2-1 XOR");
         System.out.print("choix :");
         Scanner sc = new Scanner(System.in);
         choix = sc.nextInt();
@@ -171,7 +178,7 @@ public class Main {
 
     private static void Essai6() throws IOException {
         System.out.println("6. Perceptron ADALINE classif. non linea. sep.");
-        PerceptronADALINE p = new PerceptronADALINE(0.0015, 1000,0);
+        PerceptronADALINE p = new PerceptronADALINE(0.0015, 1000);
         double[] weight = p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
         Chart chart = new Chart("Graphique", "table_2_10.csv", weight);
         chart.pack();
@@ -181,7 +188,7 @@ public class Main {
 
     private static void Essai7() throws IOException {
         System.out.println("7. Perceptron Descente du Gradiant classif. non linea. sep.");
-        PerceptronDG p = new PerceptronDG(0.0015, 1000,3);
+        PerceptronDG p = new PerceptronDG(0.0015, 1000);
         double[] weight = p.Classification(CSVReader.getInput("table_2_10.csv"), CSVReader.getOutput("table_2_10.csv"));
         Chart chart = new Chart("Graphique", "table_2_10.csv", weight);
         chart.pack();
@@ -257,19 +264,30 @@ public class Main {
 
     private static void Essai16() throws IOException {
         System.out.println("16. Perceptron Multicouche XOR (2 classes)");
-        PerceptronMulticouches p = new PerceptronMulticouches(3, 2, 3);
+        PerceptronMulticouchesStatic p = new PerceptronMulticouchesStatic(3, 2, 3);
         p.Perceptron();
 
     }
 
-    private static void Essai20() throws IOException {
-        double[] Weights = new double[14];
-        Arrays.fill(Weights, 0);
-        System.out.println("20. Perceptron Descente du Gradiant classif. linea. sep. table hearth");
-        PerceptronADALINE p = new PerceptronADALINE(Weights,0.0001, 1000);
-        double[] weight = p.Classification(CSVReader.getInput("test.csv"), CSVReader.getOutput("test.csv"));
+    private static void Essai17() throws IOException {
+        System.out.println("17. Perceptron Multicouche test ");
+        PerceptronMulticouches p = new PerceptronMulticouches(3,2,3,1.0,100,0.2);
+         double entr [][]= {{1},{0.9},{0.1},{0.9} } ;
+         double exit [][]= {{0.1},{0.9},{0.9} } ;
+         double w_Cache [][]= {{0,0.1,0.15,0.05} , {0,0.12,0.18,0.08} } ;
+         double w_Sort [][] = {{0,0.1,0.14} , {0,0.125,0.21} , {0,0.13,0.07}  } ;
+        p.Peceptron( entr ,exit ,w_Cache ,w_Sort);
 
     }
+    private static void Essai18() throws IOException {
+        System.out.println("18. Perceptron Multicouche XOR (2 classes)");
+        PerceptronMulticouches p = new PerceptronMulticouches(2,2,1,0.8,20000,0.001);
+        double entr [][]= {{0,0,1,1},{0,1,0,1} } ;
+        double exit [][]= {{0,1,1,0} } ;
+        double w_Cache [][]= {{0,1,0,-1} , {0,1,0,-1} } ;
+        double w_Sort [][] = {{1,0,0}   } ;
+        p.PeceptronFullBack( entr ,exit ,w_Cache ,w_Sort);
 
+    }
 
 }

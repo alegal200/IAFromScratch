@@ -2,7 +2,7 @@ package PECEPTRON;
 
 
 
-public class PerceptronMulticouches {
+public class PerceptronMulticouchesStatic {
 
     private int Nbr_Of_Neurones_DummyLayer;
     private int Nbr_Of_Neurones_HiddenLayer;
@@ -10,7 +10,7 @@ public class PerceptronMulticouches {
     private double[] Entry ={1,0.9,0.1,0.9}; //Entré x0 a 1 comme d'habitude
     private double[] Out ={0.1,0.9,0.9};
 
-    public PerceptronMulticouches()
+    public PerceptronMulticouchesStatic()
     {
         setNbr_Of_Neurones_DummyLayer(0);
         setNbr_Of_Neurones_HiddenLayer(0);
@@ -19,7 +19,7 @@ public class PerceptronMulticouches {
 
     }
 
-    public PerceptronMulticouches(int Nbr_Of_Neurones_DummyLayer,int Nbr_Of_Neurones_HiddenLayer,int Nbr_Of_Neurones_OutputLayer)
+    public PerceptronMulticouchesStatic(int Nbr_Of_Neurones_DummyLayer, int Nbr_Of_Neurones_HiddenLayer, int Nbr_Of_Neurones_OutputLayer)
     {
         setNbr_Of_Neurones_DummyLayer(Nbr_Of_Neurones_DummyLayer);
         setNbr_Of_Neurones_HiddenLayer(Nbr_Of_Neurones_HiddenLayer);
@@ -40,7 +40,6 @@ public class PerceptronMulticouches {
         double learning_Rate = 1.0 ;
 
         for (int m = 0; m < 2; m++) {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!boucle "+(m+1)+"x");
 
             //1.Propagation des données d'entrée (x1, x2, ..., xE) à travers le réseau :
             //1.a) Calcul des potentiels kc et sortie yc de chaque neurone de la couche caché
