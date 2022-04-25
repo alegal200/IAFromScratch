@@ -284,5 +284,13 @@ public class CSVReader {
         return Out;
     }
 
+    public static double[] getOutputMulti(){
+
+    }
+
+    public static double[] getInputMulti(){
+
+    }
+
 
 }

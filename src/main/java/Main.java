@@ -71,9 +71,17 @@ public class Main {
                 case 18:
                     Essai18();
                     break;
+                case 19:
+                    Essai19();
+                    break;
                 case 20:
-
-
+                    Essai20();
+                    break;
+                case 21:
+                    Essai21();
+                    break;
+                case 22:
+                    Essai22();
                     break;
                 default:
                     System.out.println("Choix incorrect");
@@ -108,6 +116,10 @@ public class Main {
         System.out.println("16. Perceptron Multicouche static Test3-2-3");
         System.out.println("17. Perceptron Multicouche  Test3-2-3");
         System.out.println("18. Perceptron Multicouche Test2-2-1 XOR");
+        System.out.println("19. Multicouches fullbach");
+        System.out.println("20. Multicouches stocha");
+        System.out.println("21. Perceptron Descente du Gradiant Regression lineaire AssuranceAutoSuedoise");
+        System.out.println("22. MultiCouche Stocha 2 classes line non lin sep");
         System.out.print("choix :");
         Scanner sc = new Scanner(System.in);
         choix = sc.nextInt();
@@ -271,23 +283,72 @@ public class Main {
 
     private static void Essai17() throws IOException {
         System.out.println("17. Perceptron Multicouche test ");
-        PerceptronMulticouches p = new PerceptronMulticouches(3,2,3,1.0,100,0.2);
-         double entr [][]= {{1},{0.9},{0.1},{0.9} } ;
-         double exit [][]= {{0.1},{0.9},{0.9} } ;
-         double w_Cache [][]= {{0,0.1,0.15,0.05} , {0,0.12,0.18,0.08} } ;
-         double w_Sort [][] = {{0,0.1,0.14} , {0,0.125,0.21} , {0,0.13,0.07}  } ;
-        p.Peceptron( entr ,exit ,w_Cache ,w_Sort);
+        PerceptronMulticouches p = new PerceptronMulticouches(3, 2, 3, 1.0, 3, 0.2);
+        double entr[][] = {{1}, {0.9}, {0.1}, {0.9}};
+        double exit[][] = {{0.1}, {0.9}, {0.9}};
+        double w_Cache[][] = {{0, 0.1, 0.15, 0.05}, {0, 0.12, 0.18, 0.08}};
+        double w_Sort[][] = {{0, 0.1, 0.14}, {0, 0.125, 0.21}, {0, 0.13, 0.07}};
+        p.PeceptronFullBack(entr, exit, w_Cache, w_Sort);
 
     }
+
     private static void Essai18() throws IOException {
+        /*
         System.out.println("18. Perceptron Multicouche XOR (2 classes)");
         PerceptronMulticouches p = new PerceptronMulticouches(2,2,1,0.8,20000,0.001);
         double entr [][]= {{0,0,1,1},{0,1,0,1} } ;
         double exit [][]= {{0,1,1,0} } ;
-        double w_Cache [][]= {{0,1,0,-1} , {0,1,0,-1} } ;
-        double w_Sort [][] = {{1,0,0}   } ;
+        double w_Cache [][]= {{0,0,0,0} , {0,0,0,0} } ;
+        double w_Sort [][] = {{0,0,0}   } ;
         p.PeceptronFullBack( entr ,exit ,w_Cache ,w_Sort);
+*/
+        System.out.println("18. Perceptron Multicouche XOR (2 classes)");
+        PerceptronMulticouches p = new PerceptronMulticouches(2, 2, 1, 0.8, 20000, 0.001);
+        double entr[][] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+        double exit[][] = {{0, 1, 1, 0}};
+        double w_Cache[][] = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+        double w_Sort[][] = {{0, 0, 0}};
+        p.PeceptronFullBack(entr, exit, w_Cache, w_Sort);
 
     }
+
+    private static void Essai19() throws IOException {
+
+        System.out.println("19. MultiCouche Fullbach XOR");
+        MultiCouches p = new MultiCouches(2, 2, 1, 0.8, 10000, 0.001);
+        p.PeceptronFullBack();
+
+    }
+
+    private static void Essai20() throws IOException {
+
+        System.out.println("20. MultiCouche Stocha XOR");
+        MultiCouches p = new MultiCouches(2, 2, 1, 0.8, 10000, 0.001);
+        p.PeceptronStocha();
+
+    }
+
+    private static void Essai21() throws IOException {
+        System.out.println("21. Perceptron Descente du Gradiant Regression lineaire AssuranceAutoSuedoise");
+        double[] Weight = new double[2];
+        Arrays.fill(Weight, 0);
+        PerceptronADALINE p = new PerceptronADALINE(Weight, 0.000167, 150, 0.56);
+        double[] weight = p.Regression(CSVReader.getInput("AssuranceAutoSuedoise.csv"), CSVReader.getOutput("AssuranceAutoSuedoise.csv"));
+        Chart chart = new Chart("Graphique", "AssuranceAutoSuedoise.csv", weight);
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+    }
+
+    private static void Essai22() throws IOException {
+
+        System.out.println("22. MultiCouche Stocha 2 classes line non lin sep");
+        MultiCoucheDynamique p = new MultiCoucheDynamique(2, 4, 1, 0.8, 10000, 0.001);
+        p.PeceptronStocha();
+
+    }
+
+
+
 
 }
