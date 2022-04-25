@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static CSVReader.CSVReader.getInputMulti;
+import static CSVReader.CSVReader.getOutputMulti;
+
 
 public class Main {
 
@@ -83,6 +86,12 @@ public class Main {
                 case 22:
                     Essai22();
                     break;
+                case 23:
+                    Essai23();
+                    break;
+                case 24:
+                    Essai24();
+                    break;
                 default:
                     System.out.println("Choix incorrect");
                     break;
@@ -120,6 +129,8 @@ public class Main {
         System.out.println("20. Multicouches stocha");
         System.out.println("21. Perceptron Descente du Gradiant Regression lineaire AssuranceAutoSuedoise");
         System.out.println("22. MultiCouche Stocha 2 classes line non lin sep");
+        System.out.println("23. MultiCouche  2 classes non lin sep (VRAI)");
+        System.out.println("24. MultiCouche  3 classes non lin sep (VRAI)");
         System.out.print("choix :");
         Scanner sc = new Scanner(System.in);
         choix = sc.nextInt();
@@ -313,10 +324,14 @@ public class Main {
     }
 
     private static void Essai19() throws IOException {
-
+/*
         System.out.println("19. MultiCouche Fullbach XOR");
         MultiCouches p = new MultiCouches(2, 2, 1, 0.8, 10000, 0.001);
         p.PeceptronFullBack();
+*/
+        System.out.println("19. MultiCouche Dynamique Fullbach XOR");
+        MultiCoucheDynamique p = new MultiCoucheDynamique(2, 2, 1, 0.8, 10000, 0.001);
+        p.PeceptronFullBack(getInputMulti("table_4_3.csv", 2), getOutputMulti("table_4_3.csv", 1));
 
     }
 
@@ -342,13 +357,27 @@ public class Main {
 
     private static void Essai22() throws IOException {
 
-        System.out.println("22. MultiCouche Stocha 2 classes line non lin sep");
-        MultiCoucheDynamique p = new MultiCoucheDynamique(2, 4, 1, 0.8, 10000, 0.001);
-        p.PeceptronStocha();
+        System.out.println("22. MultiCouche Stocha 2 classes non lin sep");
+        MultiCoucheDynamique p = new MultiCoucheDynamique(2, 2, 1, 0.8, 10000, 0.001);
+        p.PeceptronStocha(getInputMulti("table_4_3.csv", 2), getOutputMulti("table_4_3.csv", 1));
 
     }
 
+    private static void Essai23() throws IOException {
 
+        System.out.println("23. MultiCouche  2 classes non lin sep (VRAI)");
+        MultiCoucheDynamique p = new MultiCoucheDynamique(2, 2, 1, 0.5, 2000, 0.001);
+        p.PeceptronFullBack(getInputMulti("table_4_12.csv", 2), getOutputMulti("table_4_12.csv", 1));
+
+    }
+
+    private static void Essai24() throws IOException {
+
+        System.out.println("24. MultiCouche  3 classes non lin sep (VRAI)");
+        MultiCoucheDynamique p = new MultiCoucheDynamique(2, 2, 3, 1.2, 2000, 0.001);
+        p.PeceptronFullBack(getInputMulti("table_4_12.csv", 2), getOutputMulti("table_4_12.csv", 3));
+
+    }
 
 
 }

@@ -230,7 +230,7 @@ public class CSVReader {
             e.printStackTrace();
         }
 
-        System.out.println(Arrays.toString(Output));
+
         return Output;
     }
 
@@ -268,7 +268,7 @@ public class CSVReader {
             e.printStackTrace();
         }
 
-        System.out.println(Arrays.toString(Output));
+        System.out.println(Arrays.deepToString(Output));
         return Output;
     }
 
@@ -284,11 +284,99 @@ public class CSVReader {
         return Out;
     }
 
-    public static double[] getOutputMulti(){
+    public static double[][] getOutputMulti(String table, int nbr_output){
+        //Delimiter
+        String line = "";
+        final String delimiter = ",";
+
+        //Initilisation des variables relatives au fichier
+        String filePath = System.getProperty("user.dir") + "\\src\\main\\java\\CSVReader\\CSV\\" + table;
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(filePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BufferedReader reader = new BufferedReader(fileReader);
+
+        //Calcul de variables grace au fichier
+        long number_of_examp = 0; // nombre d'exemples
+        try {
+            number_of_examp = Files.lines(Paths.get(filePath)).count();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Variable qui serra retourné
+        double[][] Output = new double[(int) number_of_examp][nbr_output];
+
+        try {
+
+            int currLine = 0;
+            while ((line = reader.readLine()) != null) {
+
+                String[] token = line.split(delimiter);
+                for(int i=0; i< nbr_output; i++){
+                    Output[currLine][i] = Double.parseDouble(token[token.length-nbr_output+i]);
+                }
+
+                currLine++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(Arrays.deepToString(Output));
+        return Output;
 
     }
 
-    public static double[] getInputMulti(){
+    public static double[][] getInputMulti(String table, int nbr_input){
+        //Delimiter
+        String line = "";
+        final String delimiter = ",";
+
+        //Initilisation des variables relatives au fichier
+        String filePath = System.getProperty("user.dir") + "\\src\\main\\java\\CSVReader\\CSV\\" + table;
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(filePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BufferedReader reader = new BufferedReader(fileReader);
+
+        //Calcul de variables grace au fichier
+        long number_of_examp = 0; // nombre d'exemples
+        try {
+            number_of_examp = Files.lines(Paths.get(filePath)).count();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Variable qui serra retourné
+        double[][] Input = new double[(int) number_of_examp][nbr_input+1]; //+1 entré fictive
+
+
+        try {
+
+            int currLine = 0;
+            while ((line = reader.readLine()) != null) {
+
+                Input[currLine][0] =1; //Entre fictive
+                String[] token = line.split(delimiter);
+                for(int i=1; i< nbr_input+1; i++){
+                    Input[currLine][i] = Double.parseDouble(token[i-1]);
+                }
+
+                currLine++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(Arrays.deepToString(Input));
+        return Input;
 
     }
 

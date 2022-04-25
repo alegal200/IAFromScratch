@@ -30,23 +30,19 @@ public class MultiCoucheDynamique {
         setNb_Peceptrons_Sortie(nb_Peceptrons_Sortie);
     }
 
-    public void PeceptronStocha() {
+    public void PeceptronStocha(double entry[][],double outputExpected[][]) {
 //double entry[][],double outputExpected[]
+/*
         double entry[][] = {{1, 0, 0},
                 {1, 0, 1},
                 {1, 1, 0},
                 {1, 1, 1}};
-/*
-        double outputExpected[] = {0,
-                1,
-                1,
-                0};
-*/
+
         double outputExpected[][] = {{0},
                 {1},
                 {1},
                 {0}};
-
+*/
         double poid_Cache[][] = {{0, -0.5088670970235333, -0.6012675831264768},
                 {0, -0.08196000568575071, -0.28808720192743303}};
 
@@ -190,45 +186,50 @@ public class MultiCoucheDynamique {
     }
 
 
-    public void PeceptronFullBack() {
-
+    public void PeceptronFullBack(double entry[][],double outputExpected[][]) {
+/*
         double entry[][] = {{1, 0, 0},
                 {1, 0, 1},
                 {1, 1, 0},
                 {1, 1, 1}};
-        double outputExpected[] = {0,
-                1,
-                1,
-                0};
 
+        double outputExpected[][] = {{0},
+                {1},
+                {1},
+                {0}};
+*/
         double poid_Cache[][] = {{0, 0.15, 0.05},
                 {0, 0.18, 0.08}};
         double d_poid_Cache[][] = {{0, 0, 0},
                 {0, 0, 0}};
 
-        double poid_Sortie[] = {0, 0.1, 0.14};
-        double d_poid_Sortie[] = {0, 0, 0};
+        double poid_Sortie[][] = { {0, 0.1, 0.14},{0, 0.1, 0.14},{0, 0.1, 0.14} };
+        double d_poid_Sortie[][] = {{0, 0, 0},{0, 0, 0},{0, 0, 0}};
 
         int CurrentCompleteIteration = 1;
         double AVG_ERROR = 0;
+        double ERROR_ITER_COMP =0;
 
         do {
             System.out.println("CurrentCompleteIteration : " + CurrentCompleteIteration); //Affiche l'iterationComplete actuel
 
             double[][] tab_sorties_couche_sortie = new double[entry.length][nb_Peceptrons_Sortie]; //On doit stocker les sortie de chaque neur sortie pour chaque iteration
             AVG_ERROR = 0; //Reinitialisation de l'erreur quadratique moyenne pour l'iterationComplete
+            ERROR_ITER_COMP =0;
 
             //Réinitialise d_Weights cache pour l'iterationComplete
             for (double[] row : d_poid_Cache)
                 Arrays.fill(row, 0);
 
-            Arrays.fill(d_poid_Sortie, 0); //Réinitialise d_Weights sortie pour l'iterationComplete
+            for (double[] row : d_poid_Sortie) //Réinitialise d_Weights sortie pour l'iterationComplete
+                Arrays.fill(row, 0);
 
 
             for (int k = 0; k < entry.length; k++) {
                 //1.Propagation des données d'entrée (x1, x2, ..., xE) à travers le réseau :
                 //1.a) Calcul des potentiels kc et sortie yc de chaque neurone de la couche caché
-                double[] potentiel_Cache = {0, 0};
+                double[] potentiel_Cache = new double[getNb_Peceptrons_Cahe()];
+                Arrays.fill(potentiel_Cache,0);
 
 
                 for (int j = 0; j < potentiel_Cache.length; j++) { //2
@@ -239,9 +240,10 @@ public class MultiCoucheDynamique {
                 }
 
 
-                double sortie_Cache[] = {0, 0};
+                double[] sortie_Cache = new double[getNb_Peceptrons_Cahe()];
+                Arrays.fill(sortie_Cache,0);
                 for (int i = 0; i < sortie_Cache.length; i++) {
-                    sortie_Cache[i] = 1 / (1 + Math.pow(Math.E, -potentiel_Cache[i]));
+                    sortie_Cache[i] = 1 / (1 + Math.pow(Math.E, -1*potentiel_Cache[i]));
                     System.out.println("  k" + k + " Sortie_Cache" + i + ":" + sortie_Cache[i]);
                 }
 
@@ -253,57 +255,80 @@ public class MultiCoucheDynamique {
                     entre_couche_sortie[i] = sortie_Cache[i - 1];
                 }
 
-
-                double[] potentiel_Sortie = {0}; //1seul neur sortie
-                for (int i = 0; i < potentiel_Sortie.length; i++) { //1
-
-                    for (int j = 0; j < entre_couche_sortie.length; j++) { //3
-                        potentiel_Sortie[i] = potentiel_Sortie[i] + (poid_Sortie[j] * entre_couche_sortie[j]);
-                    }
-                    System.out.println("  k" + k + " potentiel_Sortie[" + i + "]:" + potentiel_Cache[i]);
+                for(int i = 0; i < entre_couche_sortie.length; i++){
+                    System.out.println("ARRAY"+i+" "+entre_couche_sortie[i]);
                 }
 
-                double[] sorties_couche_sortie = {0}; //1seul neur sortie
+                double[] potentiel_Sortie = new double[getNb_Peceptrons_Sortie()];
+                Arrays.fill(potentiel_Sortie,0);
+
+                for (int i = 0; i < potentiel_Sortie.length; i++) { //1
+                    for (int j = 0; j < entre_couche_sortie.length; j++) { //3
+                        potentiel_Sortie[i] = potentiel_Sortie[i] + (poid_Sortie[i][j] * entre_couche_sortie[j]);
+                    }
+                    System.out.println("  k" + k + " potentiel_Sortie[" + i + "]:" + potentiel_Sortie[i]);
+                }
+
+                double[] sorties_couche_sortie = new double[getNb_Peceptrons_Sortie()];
+                Arrays.fill(sorties_couche_sortie,0);
                 for (int i = 0; i < nb_Peceptrons_Sortie; i++) { //1
-                    sorties_couche_sortie[i] = 1 / (1 + Math.pow(Math.E, -potentiel_Sortie[i]));
-                    tab_sorties_couche_sortie[k][i] = sorties_couche_sortie[i];
+                    sorties_couche_sortie[i] = 1 / (1 + Math.pow(Math.E, -1*potentiel_Sortie[i]));
+                    tab_sorties_couche_sortie[k][i]=sorties_couche_sortie[i];
                     System.out.println("  k" + k + " sorties_couche_sortie[" + i + "]:" + sorties_couche_sortie[i]);
                 }
 
                 //Calcul signaux err etc mais tout pour les d_weight
                 //Pas besoin calculer erreur commise (reviens a calculer nbr d erreur ds DG)
+                double ERROR = 0;
+                for (int i = 0; i < nb_Peceptrons_Sortie; i++) { //1 , on calcul l'erreur pour l'iteration (on peut avoir plusieurs sorties)
+                    ERROR = ERROR + Math.pow(outputExpected[k][i] - sorties_couche_sortie[i], 2);
+                }
+                ERROR = ERROR / 2;
+                System.out.println("  k" + k + " ERROR commise:" + ERROR);
+                ERROR_ITER_COMP = ERROR_ITER_COMP + ERROR;
+
 
                 //Calcul signal erreur couche sortie
-                double[] signal_err_sortie = {0};
+                double[] signal_err_sortie = new double[getNb_Peceptrons_Sortie()];
+                Arrays.fill(signal_err_sortie,0);
+
                 for (int i = 0; i < nb_Peceptrons_Sortie; i++) { //1
-                    signal_err_sortie[i] = (outputExpected[k] - sorties_couche_sortie[i]) * sorties_couche_sortie[i] * (1 - sorties_couche_sortie[i]);
+                    signal_err_sortie[i] = (outputExpected[k][i] - sorties_couche_sortie[i]) * sorties_couche_sortie[i] * (1 - sorties_couche_sortie[i]);
                     System.out.println("  k" + k + " signal_err_sortie[" + i + "]:" + signal_err_sortie[i]);
                 }
+
                 //Calcul signal erreur couche cachee
-                double[] signal_err_cache = {0, 0};
+                double[] signal_err_cache = new double[getNb_Peceptrons_Cahe()];
+                Arrays.fill(signal_err_cache,0);
                 for (int i = 0; i < nb_Peceptrons_Cache; i++) { //2
                     signal_err_cache[i] = sortie_Cache[i] * (1 - sortie_Cache[i]);
                     System.out.println("  k" + k + " signal_err_cache[" + i + "]:" + signal_err_cache[i]);
                 }
 
                 //Calcul signal erreur cumule couche cachee
-                double[] signal_err_cumul_cache = {0, 0};
+                double[] signal_err_cumul_cache = new double[getNb_Peceptrons_Cahe()];
+                Arrays.fill(signal_err_cumul_cache,0);
+
                 for (int i = 0; i < nb_Peceptrons_Cache; i++) { //2
-                    signal_err_cumul_cache[i] = signal_err_cache[i] * (signal_err_sortie[0] * poid_Sortie[i +1]);
+                    for(int j = 0; j < getNb_Peceptrons_Sortie(); j++){ //3
+                        signal_err_cumul_cache[i] = signal_err_cumul_cache[i] + (signal_err_sortie[j] * poid_Sortie[j][i+1]);
+                    }
+                    signal_err_cumul_cache[i] = signal_err_cumul_cache[i] * signal_err_cache[i];
                     System.out.println("  k" + k + " signal_err_cumul_cache[" + i + "]:" + signal_err_cumul_cache[i]);
                 }
 
                 //Correction d_poid couche sortie
-                for (int i = 0; i < d_poid_Sortie.length; i++) { //3 un simple tableau sinon comme le point suivant
-                    //Devrait etre bouclé le nbr de fois qu'on neur sortie mais comme juste 1 pas boucle
-                    d_poid_Sortie[i] = d_poid_Sortie[i] + (getLearning_Rate() * (signal_err_sortie[0]) * entre_couche_sortie[i]); //entre_couche_sortie[0] vaut 1
-                    System.out.println("  k" + k + " d_poid_Sortie[" + i + "]:" + d_poid_Sortie[i]);
+                for (int i = 0; i < poid_Sortie.length; i++) {
+                    for(int j = 0; j< poid_Sortie[i].length; j++){
+                        d_poid_Sortie[i][j] = d_poid_Sortie[i][j] + (getLearning_Rate() * (signal_err_sortie[i]) * entre_couche_sortie[j]); //entre_couche_sortie[0] vaut 1
+                    }
                 }
+                System.out.println("  k" + k +"d_Poid sortie:"+Arrays.deepToString(poid_Sortie));
 
                 //Correction d_poid couche cache
                 for (int i = 0; i < nb_Peceptrons_Cache; i++) { //2
-                    for (int j = 0; j < d_poid_Cache[i].length; j++) { //3
-                        d_poid_Cache[i][j] = d_poid_Cache[i][j] + (getLearning_Rate() * (signal_err_cumul_cache[i]) * entry[k][j]); //entre_couche_sortie[0] vaut 1
+                    for (int j = 0; j < poid_Cache[i].length; j++) { //3
+                        d_poid_Cache[i][j] = d_poid_Cache[i][j] + (getLearning_Rate() * (signal_err_cumul_cache[i]) * entry[k][j]);
 
                     }
                 }
@@ -314,10 +339,10 @@ public class MultiCoucheDynamique {
 
             //Modification des vrais poids
             //Correction poid couche sortie
-            for (int i = 0; i < poid_Sortie.length; i++) { //3 un simple tableau sinon comme le point suivant
-                //Devrait etre bouclé le nbr de fois qu'on neur sortie mais comme juste 1 pas boucle
-                poid_Sortie[i] = poid_Sortie[i] + d_poid_Sortie[i];
-                System.out.println("  Fin iteration" + CurrentCompleteIteration + " nouveau poid_Sortie[" + i + "]:" + poid_Sortie[i]);
+            for (int i = 0; i < poid_Sortie.length; i++) { //2
+                for (int j = 0; j < poid_Sortie[i].length; j++) { //3
+                    poid_Sortie[i][j] = poid_Sortie[i][j] + d_poid_Sortie[i][j];
+                }
             }
 
             //Correction poid couche cache
@@ -330,10 +355,7 @@ public class MultiCoucheDynamique {
 
             //Err quad moy
             //Calcul de l'erreur quadratique moyenne
-            for (int i = 0; i < outputExpected.length; i++) {
-                AVG_ERROR = AVG_ERROR + Math.pow(outputExpected[i] - tab_sorties_couche_sortie[i][0], 2); //tab_sorties_couche_sortie[i][0] car on a que un output pour un neurone couche sortie
-            }
-            AVG_ERROR = AVG_ERROR / (2 * (outputExpected.length));
+            AVG_ERROR = ERROR_ITER_COMP/(outputExpected.length);
             System.out.println("  Fin iteration" + CurrentCompleteIteration + " erreurQuadMoyenne:" + AVG_ERROR);
 
 
